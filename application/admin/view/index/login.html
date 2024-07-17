@@ -65,7 +65,7 @@
                         </div>
                     </div>
                     <!--@CaptchaBegin-->
-                    <!-- <div class="layui-form-item">
+                     <div class="layui-form-item">
                         <div class="layui-input-wrap verify-box">
                             <div class="layui-input-prefix">
                                 <i class="layui-icon layui-icon-vercode"></i>
@@ -73,7 +73,7 @@
                             <input type="text" name="verify" lay-verify="required" placeholder="验证码" autocomplete="off" class="layui-input">
                             <img id="verify" src="{:captcha_src()}" alt="验证码" class="captcha">
                         </div>
-                    </div> -->
+                    </div>
                     <!--@CaptchaEnd-->
                     {if $keeyloginhours>0}
                     <div class="layui-form-item" lay-tips="设定会话有效时长为{$keeyloginhours}小时">
@@ -110,11 +110,11 @@
             // $("#verify").click();
         });
     });
-    // //刷新验证码
-    // $("#verify").click(function() {
-    //     var verifyimg = $("#verify").attr("src");
-    //     $("#verify").attr("src", verifyimg.replace(/\?.*$/, '') + '?' + Math.random());
-    // });
+    //刷新验证码
+    $("#verify").click(function() {
+        var verifyimg = $("#verify").attr("src");
+        $("#verify").attr("src", verifyimg.replace(/\?.*$/, '') + '?' + Math.random());
+    });
     </script>
     {:hook('admin_login_form')}
 </body>

@@ -1,6 +1,11 @@
 <?php
-return [
-    'autoload' => false,
-    'hooks'    => [],
-    'route'    => [],
-];
+
+return array (
+  'autoload' => false,
+  'hooks' => 
+  array (
+  ),
+  'route' => 
+  array (
+  ),
+);

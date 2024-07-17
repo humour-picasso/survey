@@ -29,7 +29,7 @@ return [
     //验证码字符大小
     'fontSize' => 18,
     // 是否使用混淆曲线
-    'useCurve' => true,
+    'useCurve' => false,
     //是否添加杂点
     'useNoise' => true,
     // 验证码字体 不设置则随机

@@ -1,0 +1,315 @@
+{extend name="index_layout"/}
+{block name="main"}
+<style type="text/css">
+legend {
+    padding-bottom: 5px;
+    font-size: 14px;
+    font-weight: 600;
+}
+label {
+    display: block;
+    max-width: 100%;
+    margin-bottom: 5px;
+}
+</style>
+<div class="layui-tab">
+    <div class="alert alert-success-light">注意事项：<br>在线命令行使用<b>删除模式</b>需要同时勾选<b>强制覆盖模式</b>才会执行</div>
+    <ul class="layui-tab-title">
+        <li class="layui-this">一键生成CRUD</li>
+        <li lay-id="22">一键生成菜单</li>
+    </ul>
+    <div class="layui-tab-content">
+        <div class="layui-tab-item layui-show">
+            <form class="layui-form" method="post">
+                <input type="hidden" name="commandtype" value="crud" />
+                <div class="layui-form-item">
+                    <span lay-tips="选中后,将同时生成后台菜单规则">
+                        <input type="checkbox" name="menu" title="生成菜单" value="1">
+                    </span>
+                    <span lay-tips="当前只支持生成1对1关联模型,选中后请配置关联表和字段">
+                        <input type="checkbox" name="isrelation" title="关联模型" value="1" lay-filter="isrelation-filter">
+                    </span>
+                    <span lay-tips="默认模型生成在application/admin/model目录下,选中后将生成在application/common/model目录下">
+                        <input type="checkbox" name="local" title="全局模型类" value="0">
+                    </span>
+                    <span lay-tips="删除CRUD生成的相关文件">
+                        <input type="checkbox" name="delete" title="删除模式" value="1">
+                    </span>
+                    <span lay-tips="选中后,如果已经存在同名文件将被覆盖。如果是删除将不再提醒">
+                        <input type="checkbox" name="force" title="强制覆盖模式" value="1">
+                    </span>
+                </div>
+                <hr>
+                <div class="layui-form-item">
+                    <legend>主表设置</legend>
+                    <div class="layui-row layui-col-space10">
+                        <div class="layui-col-xs6">
+                            <label>请选择主表</label>
+                            <select name="table" lay-filter="table-filter" lay-search>
+                                {volist name="tableList" id="vo"}
+                                <option value="{$vo}">{$vo}</option>
+                                {/volist}
+                            </select>
+                        </div>
+                        <div class="layui-col-xs6">
+                            <label>自定义控制器名</label>
+                            <input type="text" class="layui-input" name="controller" data-toggle="tooltip" title="默认根据表名自动生成,如果需要放在二级目录请手动填写" placeholder="支持目录层级,以/分隔">
+                        </div>
+                        <div class="layui-col-xs6">
+                            <label>自定义模型名</label>
+                            <input type="text" class="layui-input" name="model" data-toggle="tooltip" title="默认根据表名自动生成" placeholder="不支持目录层级">
+                        </div>
+                        <div class="layui-col-xs6">
+                            <label>显示字段(默认全部)</label>
+                            <div id="fields"></div>
+                        </div>
+                    </div>
+                </div>
+                <hr>
+                <div class="layui-hide" id="relation-zone">
+                    <div class="layui-form-item">
+                        <legend>关联表设置</legend>
+                        <div class="layui-row" style="margin-top:15px;">
+                            <a href="javascript:;" class="layui-btn btn-newrelation" data-index="1">追加关联模型</a>
+                        </div>
+                    </div>
+                    <hr>
+                </div>
+                <div class="layui-form-item">
+                    <legend>生成命令行</legend>
+                    <textarea class="layui-textarea" rel=command style="min-height: 25px;" placeholder="请点击生成命令行" lay-tips="如果在线执行命令失败,可以将命令复制到命令行进行执行"></textarea>
+                </div>
+                <hr>
+                <div class="layui-form-item">
+                    <legend>返回结果</legend>
+                    <textarea class="layui-textarea" rel="result" rows="3" placeholder="请点击立即执行"></textarea>
+                </div>
+                <div class="layui-form-item">
+                    <button class="layui-btn layui-bg-blue" lay-submit lay-filter="btn-command">生成命令行</button>
+                    <button class="layui-btn btn-execute">立即执行</button>
+                </div>
+                {:token()}
+            </form>
+        </div>
+        <div class="layui-tab-item">
+            <form class="layui-form" method="post">
+                <input type="hidden" name="commandtype" value="menu" />
+                <div class="layui-form-item">
+                    <span lay-tips="删除控制器菜单规则">
+                        <input type="checkbox" name="delete" title="删除模式" value="1">
+                    </span>
+                    <span lay-tips="如果菜单规则已经存在则覆盖">
+                        <input type="checkbox" name="force" title="强制覆盖模式" value="1">
+                    </span>
+                </div>
+                <hr>
+                <div class="layui-form-item" id="controller">
+                    <legend>控制器设置</legend>
+                    <input type="text" class="layui-input selectpage" data-source="{:url('get_controller_list')}" data-multiple="true" name="controllerfile" placeholder="请选择控制器" />
+                </div>
+                <hr>
+                <div class="layui-form-item">
+                    <legend>生成命令行</legend>
+                    <textarea class="layui-textarea" rel=command style="min-height: 25px;" placeholder="请点击生成命令行" lay-tips="如果在线执行命令失败,可以将命令复制到命令行进行执行"></textarea>
+                </div>
+                <hr>
+                <div class="layui-form-item">
+                    <legend>返回结果</legend>
+                    <textarea class="layui-textarea" rel="result" rows="3" placeholder="请点击立即执行"></textarea>
+                </div>
+                <div class="layui-form-item">
+                    <button class="layui-btn layui-bg-blue" lay-submit lay-filter="btn-command">生成命令行</button>
+                    <button class="layui-btn btn-execute">立即执行</button>
+                </div>
+                {:token()}
+            </form>
+        </div>
+    </div>
+</div>
+
+<script id="relationtpl" type="text/html">
+    <div class="layui-row layui-col-space10 relation-item">
+        <div class="layui-col-xs2">
+            <label>请选择关联表</label>
+            <select name="relation[{{d.index}}][relation]" class="relationtable" lay-filter="relationtable-filter" lay-search></select>
+        </div>
+        <div class="layui-col-xs2">
+            <label>请选择关联类型</label>
+            <select name="relation[{{d.index}}][relationmode]" class="relationmode" lay-filter="relationmode-filter"></select>
+        </div>
+        <div class="layui-col-xs2">
+            <label>关联外键</label>
+            <select name="relation[{{d.index}}][relationforeignkey]" class="relationforeignkey"></select>
+        </div>
+        <div class="layui-col-xs2">
+            <label>关联主键</label>
+            <select name="relation[{{d.index}}][relationprimarykey]" class="relationprimarykey"></select>
+        </div>
+        <div class="layui-col-xs3">
+            <label>请选择显示字段</label>
+            <div class="relationfields" name="relation[{{d.index}}][relationfields][]"></div>
+        </div>
+        <div class="layui-col-xs1">
+            <label>&nbsp;</label>
+            <button type="button" class="layui-btn layui-btn-danger btn-removerelation">移除</button>
+        </div>
+    </div>
+</script>
+{/block}
+{block name="script"}
+<script type="text/javascript">
+layui.use(['yznForm','yzn','xmSelect'], function() {
+    var yznForm = layui.yznForm,
+    yzn = layui.yzn,
+    form = layui.form,
+    xmselect = layui.xmSelect,
+    laytpl = layui.laytpl;
+
+    var maintable = [];
+    var mainfields = [];
+    var relationmode = ["belongsto", "hasone"];
+
+    $("select[name=table] option").each(function () {
+        maintable.push($(this).val());
+    });
+
+    var renderselect = function (select, data,name) {
+        var newArr = [];
+        $.each(data, function(i, j) {
+            var vote = {};
+            vote.value = j;
+            vote.name = j;
+            newArr.push(vote);
+        })
+        xmSelect.render({
+            el: select,
+            name:name,
+            data: newArr
+        })
+    };
+
+    function buildOptions(select,data,render=true){
+        var html = [];
+        for (var i = 0; i < data.length; i++) {
+            html.push("<option value='" + data[i] + "'>" + data[i] + "</option>");
+        }
+        $(select).html(html.join(""));
+        render && form.render();
+        select.siblings("div.layui-form-select").find("dd:first").click();
+    };
+
+    $(document).on('click', ".btn-removerelation", function () {
+         $(this).closest(".layui-row").remove();
+    });
+
+    //主表关联
+    form.on('select(table-filter)', function(data){
+        yzn.request.post({
+            url: "{:url('get_field_list')}",
+            data: {table: data.value},
+        }, function (data, ret) {
+            mainfields = data.fieldlist;
+            $("#relation-zone .relation-item").remove();
+            renderselect("#fields", mainfields,'fields');
+        });
+        return false;
+    });
+
+    $("select[name='table']").siblings("div.layui-form-select").find("dd:first").click();
+
+    //点击显示关联表
+    form.on('checkbox(isrelation-filter)', function(data){
+        var elem = data.elem; 
+        $("#relation-zone").toggleClass("layui-hide", !elem.checked);
+    });
+
+    //点击动态追加关联表
+    $(document).on('click', "a.btn-newrelation", function () {
+        var that = this;
+        var index = parseInt($(that).data("index")) + 1;
+        var content = laytpl($("#relationtpl").html()).render({index: index});
+        content = $(content.replace(/\[index\]/, index));
+        $(this).data("index", index);
+        $(content).insertBefore($(that).closest(".layui-row"));
+
+        var exists = [$("select[name='table']").val()];
+        $("select.relationtable").each(function () {
+            exists.push($(this).val());
+        });
+
+        relationtable = [];
+        $.each(maintable, function (i, j) {
+            if ($.inArray(j, exists) < 0) {
+                relationtable.push(j);
+            }
+        });
+        buildOptions($("select.relationtable", content), relationtable);
+    });
+
+    form.on('select(relationmode-filter)', function(data){
+        var table = $("select.relationtable", $(this).closest(".layui-row")).val();
+        var that = this;
+        var value = data.value;
+        yzn.request.post({
+            url: "{:url('get_field_list')}",
+            data: {table: table},
+        }, function (data, ret) {
+            buildOptions($(that).closest(".layui-row").find("select.relationprimarykey"), value == 'belongsto' ? data.fieldlist : mainfields,false);
+            buildOptions($(that).closest(".layui-row").find("select.relationforeignkey"), value == 'hasone' ? data.fieldlist : mainfields,false);
+            form.render();
+        });
+        return false;
+    });
+
+    //关联表下拉追加字段
+    form.on('select(relationtable-filter)', function(data){
+        var that = this;
+        var fieldsObj = $(that).closest(".layui-row").find("div.relationfields");
+        var name = fieldsObj.attr('name');
+
+        yzn.request.post({
+            url: "{:url('get_field_list')}",
+            data: {table: data.value},
+        }, function (data, ret) {
+            buildOptions($(that).closest(".layui-row").find("select.relationmode"), relationmode);
+            renderselect(fieldsObj[0], data.fieldlist,name)
+        });
+        return false;
+    });
+
+    form.on('submit(btn-command)', function(data){
+        var field = data.field;
+        var elemForm = data.form;
+        var textarea = $("textarea[rel=command]", elemForm);
+        textarea.val('');
+        yzn.request.post({
+            url: "{:url('command')}?action=command",
+            data: field,
+        }, function (data, ret) {
+            textarea.val(data.command);
+        });
+        return false;
+    });
+    $(document).on('click', ".btn-execute", function () {
+        var form = $(this).closest("form");
+        var textarea = $("textarea[rel=result]", form);
+        textarea.val('');
+        yzn.request.post({
+            url: "{:url('command')}?action=execute",
+            data: form.serialize(),
+        }, function (data, ret) {
+            window.parent.$('[data-table-refresh]').trigger('click');
+            textarea.val(data.result);
+        }, function (data,ret) {
+            window.parent.$('[data-table-refresh]').trigger('click');
+            yzn.msg.error(ret.msg);
+        });
+        return false;
+    });
+
+    yznForm.events.selectpage($("form.layui-form"));
+
+    //yznForm.bindevent($("form.layui-form"));
+});
+</script>
+{/block}

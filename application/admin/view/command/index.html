@@ -1,0 +1,77 @@
+{extend name="index_layout"/}
+{block name="main"}
+<div class="layui-card">
+    <div class="layui-card-header">在线命令管理</div>
+    <div class="layui-card-body">
+        <div class="layui-form">
+            <table class="layui-hide" id="currentTable" lay-filter="currentTable"
+            data-auth-execute="{:$auth->check('execute')}"
+            data-auth-delete="{:$auth->check('del')}" ></table>
+        </div>
+    </div>
+</div>
+<script type="text/html" id="barTool">
+    <a href='{:url("execute")}?ids={{ d.id }}' class="layui-btn layui-btn-xs btn-ajax {:$auth->check('execute')?'':'layui-hide'}">再次执行</a>
+    <a data-open='{:url("detail")}?ids={{ d.id }}' data-title="详情" class="layui-btn layui-btn-xs layui-bg-blue {:$auth->check('detail')?'':'layui-hide'}"><i class="iconfont icon-zoom-in-line"></i> 详情</a>
+    <a href='{:url("del")}?id={{ d.id }}' class="layui-btn layui-btn-danger layui-btn-xs layui-tr-del {:$auth->check('del')?'':'layui-hide'}"><i class="iconfont icon-trash_fill"></i></a>
+</script>
+{/block}
+{block name="script"}
+<script>
+layui.use(['yznTable','table'], function() {
+    var yznTable = layui.yznTable;
+    var table = layui.table;
+
+    var init = {
+        table_elem: '#currentTable',
+        table_render_id: 'currentTable',
+        add_url: "{:url('add')}",
+        delete_url: '{:url("del")}',
+    };
+
+    yznTable.render({
+        init: init,
+        toolbar: ['refresh','add','delete'],
+        url: '{:url("index")}',
+        search:false,
+        cols: [
+            [
+                { type: 'checkbox', fixed: 'left' },
+                { field: 'id', width: 60, title: 'ID' },
+                { field: 'type',width: 80, title: '类型'},
+                { field: 'type_text',width: 150, title: '类型'},
+                { field: 'command', title: '命令', templet:function(d) {
+                     return '<input type="text" class="layui-input" style="height:28px;" value="' + d.command + '">';
+                  }
+                },
+                { field: 'execute_time',width: 160, title: '执行时间', search: 'range',templet: yznTable.formatter.datetime },
+                { field: 'create_time', width: 160,title: '创建时间', search: 'range',templet: yznTable.formatter.datetime },
+                { field: 'update_time', width: 160,title: '更新时间', search: 'range',templet: yznTable.formatter.datetime },
+                { field: 'status', width: 80,title: '状态',templet: yznTable.formatter.status,selectList:{0:'失败',1:'成功'},search:false},
+                { fixed: 'right', width: 190, title: '操作', toolbar: '#barTool' }
+            ]
+        ],
+        page: {}
+    });
+
+    $(document).on('click', '.btn-ajax', function (e) {
+        var url = $(this).attr("href");
+        var tableId = init.table_render_id;
+        yzn.request.post({
+            url: url
+        }, function(data,res) {
+            layer.alert("<textarea class='layui-textarea' cols='60' rows='5'>" + data.result + "</textarea>", {
+                title: "执行结果",
+                shadeClose: true
+            });
+            tableId && table.reload(tableId);
+        }, function(data,ret) {
+            yzn.msg.error(ret.msg);
+        })
+        return false;
+    })
+
+    yznTable.bindevent();
+});
+</script>
+{/block}
