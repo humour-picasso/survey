@@ -2,9 +2,10 @@
 
 namespace app\admin\controller;
 
+use app\admin\model\Options;
 use app\common\controller\Adminbase;
 use app\admin\model\Category;
-
+use think\Db;
 /**
  * 
  */
@@ -55,15 +56,13 @@ class Question extends Adminbase
 
             foreach ($list as $key =>$row) {
                 switch($row['type']) {
-                    case 1:
-                        $list[$key]['type'] = '单选';
-                        break;
                     case 2:
                         $list[$key]['type'] = '多选';
                         break;
                     case 3:
                         $list[$key]['type'] = '问答';
                         break;
+                    case 1:
                     default:
                         $list[$key]['type'] = '单选';
                         break;
@@ -84,23 +83,27 @@ class Question extends Adminbase
     public function add()
     {
         if ($this->request->isPost()) {
-            $params = $this->request->post("row/a");
+            $params = $this->request->post();
             if ($params) {
                 $params = $this->preExcludeFields($params);
-
                 if ($this->dataLimit && $this->dataLimitFieldAutoFill) {
                     $params[$this->dataLimitField] = $this->auth->id;
                 }
                 $result = false;
                 Db::startTrans();
                 try {
-                    //是否采用模型验证
-                    if ($this->modelValidate) {
-                        $name     = str_replace("\\model\\", "\\validate\\", get_class($this->modelClass));
-                        $validate = is_bool($this->modelValidate) ? ($this->modelSceneValidate ? $name . '.add' : $name) : $this->modelValidate;
-                        $this->validateFailException(true)->validate($params, $validate);
+                    $result = $this->modelClass->allowField(true)->save($params['row']);
+                    $qid = $this->modelClass->getData('id');
+                    //添加选项
+                    $optionData = [];
+                    $optionModel = new Options();
+                    if (!empty($params['option']) && !empty($params['score'])) {
+                        $options = array_combine($params['option'], $params['score']);
+                        foreach ($options as $k => $v) {
+                            $optionData[] = ['qid'=> $qid, 'option_name' => $k, 'score' => $v];
+                        }
+                        $optionModel->saveAll($optionData);
                     }
-                    $result = $this->modelClass->allowField(true)->save($params);
                     Db::commit();
                 } catch (ValidateException | PDOException | Exception $e) {
                     Db::rollback();
@@ -117,7 +120,6 @@ class Question extends Adminbase
         } else {
             $category = Category::all();
             $this->assign('category', $category);
-            
         }
         
         return $this->fetch();
@@ -129,7 +131,9 @@ class Question extends Adminbase
     public function edit()
     {
         $id  = $this->request->param('id/d', 0);
+
         $row = $this->modelClass->get($id);
+
         if (!$row) {
             $this->error('记录未找到');
         }
@@ -140,19 +144,35 @@ class Question extends Adminbase
             }
         }
         if ($this->request->isPost()) {
-            $params = $this->request->post("row/a");
+            $params = $this->request->post();
             if ($params) {
                 $params = $this->preExcludeFields($params);
                 $result = false;
                 Db::startTrans();
                 try {
-                    //是否采用模型验证
-                    if ($this->modelValidate) {
-                        $name     = str_replace("\\model\\", "\\validate\\", get_class($this->modelClass));
-                        $validate = is_bool($this->modelValidate) ? ($this->modelSceneValidate ? $name . '.edit' : $name) : $this->modelValidate;
-                        $this->validateFailException(true)->validate($params, $validate);
+                    $result = $row->allowField(true)->save($params['row']);
+                    $optionsData = [];
+                    $optionsModel = new Options();
+                    if (!empty($params['id'])) {
+                        foreach ($params['id'] as $k => $v) {
+
+                            $optionsData[$k] = [
+                                'id' => $v,
+                                'option_name' => $params['option'][$k],
+                                'score' => $params['score'][$k],
+                                'qid' => $params['qid'],
+                            ];
+                            if ($v == 0) {
+                                unset($optionsData[$k]['id']);
+                            }
+                            if (empty($params['option'][$k]) && empty($params['score'][$k])) {
+                                unset($optionsData[$k]);
+                                $optionsModel->where(['id' => $v])->delete();
+                            }
+                        }
                     }
-                    $result = $row->allowField(true)->save($params);
+
+                    $optionsModel->saveAll($optionsData);
                     Db::commit();
                 } catch (ValidateException | PDOException | Exception $e) {
                     Db::rollback();
@@ -167,7 +187,9 @@ class Question extends Adminbase
             $this->error('参数不能为空');
         }
         $category = Category::all();
+        $options = Options::where(['qid'=>$id])->select();
         $this->assign('category', $category);
+        $this->assign('options', $options);
         $this->view->assign("data", $row);
         return $this->fetch();
     }
@@ -200,6 +222,8 @@ class Question extends Adminbase
         try {
             foreach ($list as $k => $v) {
                 $count += $v->delete();
+                //删除选项
+                Options::where(['qid'=>$v->getData('id')])->delete();
             }
             Db::commit();
         } catch (PDOException | Exception $e) {

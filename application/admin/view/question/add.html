@@ -31,11 +31,14 @@
     <div class="layui-form-item">
         <label class="layui-form-label">备选个数</label>
         <div class="layui-input-block">
-            <input id="c-options-num" class=" layui-input" name="num" type="number">
+            <input id="c-options-num" class=" layui-input" name="num" type="number" min="0">
         </div>
     </div>
     <div id="dynamicInputs" class="layui-form-item">
         <!-- 动态添加的输入框会插入到这里 -->
+    </div>
+    <div class="layui-form-item">
+        <button class="layui-btn" type="button" id="add-option">追加选项+</button>
     </div>
     <div class="layui-form-item layer-footer">
         <div class="layui-input-block">
@@ -57,7 +60,7 @@ layui.use(['form'], function(){
             var $ = layui.jquery;
 
             // 监听选择框的变化
-            $('#c-options-num').on('input', function(data){
+            $('#c-options-num').on('input', function(){
                 var value = $(this).val();
                 var dynamicInputs = $('#dynamicInputs');
 
@@ -68,9 +71,11 @@ layui.use(['form'], function(){
                 if(value && value > 0) {
                     for(var i = 1; i <= value; i++) {
                         dynamicInputs.append(
-                            '<div class="layui-input-block">' +
-                            '<input type="text" name="option[' + i + ']' + i + '" placeholder="选项 ' + i + '" class="layui-input">' +
-                            '<input type="text" name="score[' + i + ']' + i + '" placeholder="分数 ' + i + '" class="layui-input">' +
+                            '<div class="layui-row layui-col-space16">' +
+                            '<div class="layui-col-xs8">' +
+                            '<input type="text" name="option[' + i + ']" placeholder="选项" class="layui-input options"></div>' +
+                            '<div class="layui-col-xs4">' +
+                            '<input type="text" name="score[' + i + ']" placeholder="分数" class="layui-input"></div>' +
                             '</div>'
                         );
                     }
@@ -79,11 +84,20 @@ layui.use(['form'], function(){
                 }
             });
 
-            // 提交表单
-            form.on('submit(formDemo)', function(data){
-                console.log(data.field); // 打印所有表单数据
-                return false; // 阻止表单跳转。如果需要表单跳转，去掉这行。
-            });
+            $('#add-option').on('click', function () {
+                var dynamicInputs = $('#dynamicInputs');
+                var k = $('.options').length + 1;
+                dynamicInputs.append(
+                    '<div class="layui-row layui-col-space16">' +
+                    '<div class="layui-col-xs8">' +
+                    '<input type="text" name="option[' + k + ']" placeholder="选项" class="layui-input"></div>' +
+                    '<div class="layui-col-xs4">' +
+                    '<input type="text" name="score[' + k + ']" placeholder="分数" class="layui-input"></div>' +
+                    '</div>'
+                );
+                // 重新渲染表单
+                form.render();
+            })
         });
 </script>
 {/block}
