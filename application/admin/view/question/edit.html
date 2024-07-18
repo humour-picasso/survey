@@ -3,31 +3,27 @@
 <form class="layui-form" method="post">
 
     <div class="layui-form-item">
-        <label class="layui-form-label">量表分类</label>
+        <label class="layui-form-label">Category ID</label>
         <div class="layui-input-block">
-            <select name="row[cid]" lay-verify="required">
-                {volist name="category" id="item" key="index"}
-                <option value="{$item.id}">{$item.name}</option>
-                {/volist}
-            </select>
+            <input id="c-cid" lay-verify="required" class=" layui-input" name="row[cid]" type="number" value="{$data.cid}">
         </div>
     </div>
     <div class="layui-form-item">
-        <label class="layui-form-label">分段起始值</label>
+        <label class="layui-form-label">Type 1: Single Choice 2: Multiple Choice 3: Short answer</label>
         <div class="layui-input-block">
-            <input id="c-score_start" lay-verify="required" class=" layui-input" name="row[score_start]" type="number">
+            <input id="c-type" lay-verify="required" class=" layui-input" name="row[type]" type="number" value="{$data.type}">
         </div>
     </div>
     <div class="layui-form-item">
-        <label class="layui-form-label">分段结束值</label>
+        <label class="layui-form-label">题目</label>
         <div class="layui-input-block">
-            <input id="c-score_end" lay-verify="required" class=" layui-input" name="row[score_end]" type="number">
+            <input id="c-title" lay-verify="required" class=" layui-input" name="row[title]" type="text" value="{$data.title}">
         </div>
     </div>
     <div class="layui-form-item">
-        <label class="layui-form-label">结论</label>
+        <label class="layui-form-label">选项id集合</label>
         <div class="layui-input-block">
-            <textarea id="c-result" class=" layui-textarea" rows="5" name="row[result]" cols="50"></textarea>
+            <input id="c-options" class=" layui-input" name="row[options]" type="text" value="{$data.options}">
         </div>
     </div>
     <div class="layui-form-item layer-footer">

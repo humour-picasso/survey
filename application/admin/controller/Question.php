@@ -1,29 +1,26 @@
 <?php
 
-namespace app\admin\controller\category;
+namespace app\admin\controller;
 
-use app\admin\model\Category;
 use app\common\controller\Adminbase;
-use think\Db;
-use think\exception\PDOException;
-use think\exception\ValidateException;
+use app\admin\model\Category;
 
 /**
  * 
  */
-class Score extends Adminbase
+class Question extends Adminbase
 {
 
     /**
-     * Score模型对象
-     * @var \app\admin\model\category\Score
+     * Question模型对象
+     * @var \app\admin\model\Question
      */
     protected $modelClass = null;
 
     protected function initialize()
     {
         parent::initialize();
-        $this->modelClass = new \app\admin\model\category\Score;
+        $this->modelClass = new \app\admin\model\Question;
 
     }
 
@@ -49,16 +46,28 @@ class Score extends Adminbase
                 return $this->selectpage();
             }
             [$page, $limit, $where, $sort, $order] = $this->buildTableParames();
-
+            $order = 'ASC';
             $list = $this->modelClass
                     ->withJoin(['category'])
                     ->where($where)
                     ->order($sort, $order)
                     ->paginate($limit);
 
-            foreach ($list as $row) {
-                
-                $row->getRelation('category')->visible(['name']);
+            foreach ($list as $key =>$row) {
+                switch($row['type']) {
+                    case 1:
+                        $list[$key]['type'] = '单选';
+                        break;
+                    case 2:
+                        $list[$key]['type'] = '多选';
+                        break;
+                    case 3:
+                        $list[$key]['type'] = '问答';
+                        break;
+                    default:
+                        $list[$key]['type'] = '单选';
+                        break;
+                }
             }
 
             $result = ["code" => 0, "count" => $list->total(), "data" => $list->items()];
@@ -67,6 +76,7 @@ class Score extends Adminbase
         }
         return $this->fetch();
     }
+
 
     /**
      * 添加
@@ -102,11 +112,14 @@ class Score extends Adminbase
                     $this->error('未插入任何行');
                 }
             }
+            
             $this->error('参数不能为空');
         } else {
             $category = Category::all();
             $this->assign('category', $category);
+            
         }
+        
         return $this->fetch();
     }
 
@@ -157,6 +170,46 @@ class Score extends Adminbase
         $this->assign('category', $category);
         $this->view->assign("data", $row);
         return $this->fetch();
+    }
+
+    /**
+     * 删除
+     */
+    public function del()
+    {
+        if (false === $this->request->isPost()) {
+            $this->error('未知参数');
+        }
+        $ids = $this->request->param('id/a', null);
+        if (empty($ids)) {
+            $this->error('参数错误！');
+        }
+        if (!is_array($ids)) {
+            $ids = [0 => $ids];
+        }
+        $pk       = $this->modelClass->getPk();
+        $adminIds = $this->getDataLimitAdminIds();
+        $where    = [];
+        if (is_array($adminIds)) {
+            $where[] = [$this->dataLimitField, 'in', $adminIds];
+        }
+        $where[] = [$pk, 'in', $ids];
+        $list    = $this->modelClass->where($where)->select();
+        $count   = 0;
+        Db::startTrans();
+        try {
+            foreach ($list as $k => $v) {
+                $count += $v->delete();
+            }
+            Db::commit();
+        } catch (PDOException | Exception $e) {
+            Db::rollback();
+            $this->error($e->getMessage());
+        }
+        if ($count) {
+            $this->success("操作成功！");
+        }
+        $this->error('没有数据删除！');
     }
 
 }

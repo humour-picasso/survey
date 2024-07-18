@@ -3,9 +3,21 @@
 <form class="layui-form" method="post">
 
     <div class="layui-form-item">
-        <label class="layui-form-label">量表名称</label>
+        <label class="layui-form-label">选项</label>
         <div class="layui-input-block">
-            <input id="c-name" lay-verify="required" class=" layui-input" name="row[name]" type="text">
+            <input id="c-option_name" lay-verify="required" class=" layui-input" name="row[option_name]" type="text">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">分数</label>
+        <div class="layui-input-block">
+            <input id="c-score" class=" layui-input" name="row[score]" type="number">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">问题ID</label>
+        <div class="layui-input-block">
+            <input id="c-qid" class=" layui-input" name="row[qid]" type="number">
         </div>
     </div>
     <div class="layui-form-item layer-footer">

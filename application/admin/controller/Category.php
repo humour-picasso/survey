@@ -29,5 +29,33 @@ class Category extends Adminbase
      * 需要将application/admin/library/traits/Curd.php中对应的方法复制到当前控制器,然后进行修改
      */
 
+     /**
+     * 查看
+     */
+    public function index()
+    {
+        if ($this->request->isAjax()) {
+            //如果发送的来源是Selectpage，则转发到Selectpage
+            if ($this->request->request('keyField')) {
+                return $this->selectpage();
+            }
+            
+            [$page, $limit, $where, $sort, $order] = $this->buildTableParames();
+            $order = 'ASC';
+            $count = $this->modelClass
+                ->where($where)
+                ->order($sort, $order)
+                ->count();
+
+            $data = $this->modelClass
+                ->where($where)
+                ->order($sort, $order)
+                ->page($page, $limit)
+                ->select();
+            $result = ["code" => 0, 'count' => $count, 'data' => $data];
+            return json($result);
+        }
+        return $this->fetch();
+    }
 
 }

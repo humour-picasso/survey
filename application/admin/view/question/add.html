@@ -1,0 +1,89 @@
+{extend name="index_layout"/}
+{block name="main"}
+<form class="layui-form" method="post">
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">所属量表</label>
+        <div class="layui-input-block">
+            <select name="row[cid]" lay-verify="required">
+                {volist name="category" id="item" key="index"}
+                <option value="{$item.id}">{$item.name}</option>
+                {/volist}
+            </select>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">类型</label>
+        <div class="layui-input-block">
+            <select id="c-type" lay-verify="required" name="row[type]">
+                <option value="1">单选</option>
+                <option value="2">多选</option>
+                <option value="3">问答</option>
+              </select>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">题目</label>
+        <div class="layui-input-block">
+            <input id="c-title" lay-verify="required" class=" layui-input" name="row[title]" type="text">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">备选个数</label>
+        <div class="layui-input-block">
+            <input id="c-options-num" class=" layui-input" name="num" type="number">
+        </div>
+    </div>
+    <div id="dynamicInputs" class="layui-form-item">
+        <!-- 动态添加的输入框会插入到这里 -->
+    </div>
+    <div class="layui-form-item layer-footer">
+        <div class="layui-input-block">
+            <button class="layui-btn" lay-submit="" lay-filter="formDemo">立即提交</button>
+            <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+        </div>
+    </div>
+</form>
+{/block}
+{block name="script"}
+<script type="text/javascript">
+layui.use('yznForm', function() {
+    var yznForm = layui.yznForm;
+    yznForm.bindevent($("form.layui-form"));
+});
+
+layui.use(['form'], function(){
+            var form = layui.form;
+            var $ = layui.jquery;
+
+            // 监听选择框的变化
+            $('#c-options-num').on('input', function(data){
+                var value = $(this).val();
+                var dynamicInputs = $('#dynamicInputs');
+
+                // 清空之前动态添加的输入框
+                dynamicInputs.empty();
+
+                // 根据输入的值动态添加输入框
+                if(value && value > 0) {
+                    for(var i = 1; i <= value; i++) {
+                        dynamicInputs.append(
+                            '<div class="layui-input-block">' +
+                            '<input type="text" name="option[' + i + ']' + i + '" placeholder="选项 ' + i + '" class="layui-input">' +
+                            '<input type="text" name="score[' + i + ']' + i + '" placeholder="分数 ' + i + '" class="layui-input">' +
+                            '</div>'
+                        );
+                    }
+                    // 重新渲染表单
+                    form.render();
+                }
+            });
+
+            // 提交表单
+            form.on('submit(formDemo)', function(data){
+                console.log(data.field); // 打印所有表单数据
+                return false; // 阻止表单跳转。如果需要表单跳转，去掉这行。
+            });
+        });
+</script>
+{/block}
