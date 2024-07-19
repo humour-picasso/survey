@@ -70,7 +70,7 @@ CREATE TABLE `yzn_adminlog` (
   `create_time` int unsigned DEFAULT NULL COMMENT '操作时间',
   PRIMARY KEY (`id`),
   KEY `name` (`username`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='操作日志';
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='操作日志';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -78,6 +78,7 @@ CREATE TABLE `yzn_adminlog` (
 --
 
 /*!40000 ALTER TABLE `yzn_adminlog` DISABLE KEYS */;
+INSERT INTO `yzn_adminlog` VALUES (1,1,'admin','/admin/general.config/add/groupType/base.html?dialog=1','配置管理-新增','{\"dialog\":\"1\",\"__token__\":\"***\",\"row\":{\"group\":\"base\",\"type\":\"switch\",\"title\":\"问卷结论前台显示开关\",\"name\":\"web_site_survey_result_display\",\"value\":\"1\",\"options\":\"\",\"visible\":\"\",\"extend\":\"\",\"remark\":\"\",\"listorder\":\"100\",\"status\":\"1\"},\"groupType\":\"base\"}','172.20.0.1','Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36',1721382859),(2,1,'admin','/admin/general.config/del.html?id=1','配置管理-删除','{\"id\":\"1\"}','172.20.0.1','Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36',1721382895),(3,1,'admin','/admin/general.config/del.html?id=2','配置管理-删除','{\"id\":\"2\"}','172.20.0.1','Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36',1721382897),(4,1,'admin','/admin/general.config/edit.html?id=17&dialog=1','配置管理-编辑','{\"id\":\"17\",\"dialog\":\"1\",\"__token__\":\"***\",\"row\":{\"group\":\"base\",\"type\":\"switch\",\"title\":\"问卷结论显示开关\",\"name\":\"web_site_survey_result_display\",\"value\":\"1\",\"options\":\"\",\"visible\":\"\",\"extend\":\"\",\"remark\":\"\",\"listorder\":\"100\",\"id\":\"17\"}}','172.20.0.1','Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36',1721382957),(5,1,'admin','/admin/general.config/setting.html','配置管理-网站设置','{\"__token__\":\"***\"}','172.20.0.1','Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36',1721382989),(6,1,'admin','/admin/general.config/edit.html?id=17&dialog=1','配置管理-编辑','{\"id\":\"17\",\"dialog\":\"1\",\"__token__\":\"***\",\"row\":{\"group\":\"base\",\"type\":\"switch\",\"title\":\"结论显示开关\",\"name\":\"web_site_survey_result_display\",\"value\":\"0\",\"options\":\"\",\"visible\":\"\",\"extend\":\"\",\"remark\":\"\",\"listorder\":\"100\",\"id\":\"17\"}}','172.20.0.1','Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36',1721383029),(7,1,'admin','/admin/general.attachments/del.html?id=2','附件管理-删除','{\"id\":\"2\"}','172.20.0.1','Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36',1721383037),(8,1,'admin','/admin/general.attachments/del.html?id=1','附件管理-删除','{\"id\":\"1\"}','172.20.0.1','Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36',1721383040);
 /*!40000 ALTER TABLE `yzn_adminlog` ENABLE KEYS */;
 
 --
@@ -115,7 +116,6 @@ CREATE TABLE `yzn_attachment` (
 --
 
 /*!40000 ALTER TABLE `yzn_attachment` DISABLE KEYS */;
-INSERT INTO `yzn_attachment` VALUES (1,'',1,0,'logo.png','/uploads/images/20240717/5e4bbd3844866f74473cfaa3e3d1163c.png','','','image/png','png',7904,'5e4bbd3844866f74473cfaa3e3d1163c','08cad4a31b13874e24428c9f07d8c878fb9a976c','local',1721210230,1721210230,100,1),(2,'',1,0,'banner.png','/uploads/images/20240719/220ecf76b64d24b4629e9454671e466b.png','','','image/png','png',636624,'220ecf76b64d24b4629e9454671e466b','c6b01ff3ad41d9071bef5e576aad21332c90dd5c','local',1721360464,1721360464,100,1);
 /*!40000 ALTER TABLE `yzn_attachment` ENABLE KEYS */;
 
 --
@@ -310,7 +310,7 @@ CREATE TABLE `yzn_config` (
   UNIQUE KEY `uk_name` (`name`),
   KEY `type` (`type`),
   KEY `group` (`group`)
-) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='网站配置';
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='网站配置';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -318,7 +318,7 @@ CREATE TABLE `yzn_config` (
 --
 
 /*!40000 ALTER TABLE `yzn_config` DISABLE KEYS */;
-INSERT INTO `yzn_config` VALUES (1,'web_site_icp','text','备案信息','base','','',1551244923,1551244971,1,'','','',1),(2,'web_site_statistics','textarea','站点代码','base','','',1551244957,1551244957,1,'','','',100),(3,'config_group','array','配置分组','system','','',1494408414,1494408414,1,'{\"base\":\"基础\",\"system\":\"系统\",\"upload\":\"上传\",\"develop\":\"开发\"}','','',0),(4,'theme','text','主题风格','system','','',1541752781,1541756888,1,'default','','',1),(5,'admin_forbid_ip','textarea','后台禁止访问IP','system','','匹配IP段用\"*\"占位，如192.168.*.*，多个IP地址请用英文逗号\",\"分割',1551244957,1551244957,1,'','','',2),(6,'upload_image_size','text','图片上传大小限制','upload','','0为不限制大小，单位：kb',1540457656,1552436075,1,'0','','',2),(7,'upload_image_ext','text','允许上传图片后缀','upload','','多个后缀用逗号隔开，不填写则不限制类型',1540457657,1552436074,1,'gif,jpg,jpeg,bmp,png','','',1),(8,'upload_file_size','text','文件上传大小限制','upload','','0为不限制大小，单位：kb',1540457658,1552436078,1,'0','','',3),(9,'upload_file_ext','text','允许上传文件后缀','upload','','多个后缀用逗号隔开，不填写则不限制类型',1540457659,1552436080,1,'doc,docx,xls,xlsx,ppt,pptx,pdf,wps,txt,rar,zip,gz,bz2,7z','','',4),(10,'upload_driver','radio','上传驱动','upload','local:本地','图片或文件上传驱动',1541752781,1552436085,1,'local','','',9),(11,'upload_thumb_water','switch','添加水印','upload','','',1552435063,1552436080,1,'0','','',5),(12,'upload_thumb_water_pic','image','水印图片','upload','','只有开启水印功能才生效',1552435183,1552436081,1,'','','',6),(13,'upload_thumb_water_position','radio','水印位置','upload','1:左上角\r\n2:上居中\r\n3:右上角\r\n4:左居中\r\n5:居中\r\n6:右居中\r\n7:左下角\r\n8:下居中\r\n9:右下角','只有开启水印功能才生效',1552435257,1552436082,1,'9','','',7),(14,'upload_thumb_water_alpha','text','水印透明度','upload','','请输入0~100之间的数字，数字越小，透明度越高',1552435299,1552436083,1,'50','','',8),(15,'web_logo','image','LOGO','upload','','',1721209954,1721209954,1,'/uploads/images/20240717/5e4bbd3844866f74473cfaa3e3d1163c.png','','',100);
+INSERT INTO `yzn_config` VALUES (3,'config_group','array','配置分组','system','','',1494408414,1494408414,1,'{\"base\":\"基础\",\"system\":\"系统\",\"upload\":\"上传\",\"develop\":\"开发\"}','','',0),(4,'theme','text','主题风格','system','','',1541752781,1541756888,1,'default','','',1),(5,'admin_forbid_ip','textarea','后台禁止访问IP','system','','匹配IP段用\"*\"占位，如192.168.*.*，多个IP地址请用英文逗号\",\"分割',1551244957,1551244957,1,'','','',2),(6,'upload_image_size','text','图片上传大小限制','upload','','0为不限制大小，单位：kb',1540457656,1552436075,1,'0','','',2),(7,'upload_image_ext','text','允许上传图片后缀','upload','','多个后缀用逗号隔开，不填写则不限制类型',1540457657,1552436074,1,'gif,jpg,jpeg,bmp,png','','',1),(8,'upload_file_size','text','文件上传大小限制','upload','','0为不限制大小，单位：kb',1540457658,1552436078,1,'0','','',3),(9,'upload_file_ext','text','允许上传文件后缀','upload','','多个后缀用逗号隔开，不填写则不限制类型',1540457659,1552436080,1,'doc,docx,xls,xlsx,ppt,pptx,pdf,wps,txt,rar,zip,gz,bz2,7z','','',4),(10,'upload_driver','radio','上传驱动','upload','local:本地','图片或文件上传驱动',1541752781,1552436085,1,'local','','',9),(11,'upload_thumb_water','switch','添加水印','upload','','',1552435063,1552436080,1,'0','','',5),(12,'upload_thumb_water_pic','image','水印图片','upload','','只有开启水印功能才生效',1552435183,1552436081,1,'','','',6),(13,'upload_thumb_water_position','radio','水印位置','upload','1:左上角\r\n2:上居中\r\n3:右上角\r\n4:左居中\r\n5:居中\r\n6:右居中\r\n7:左下角\r\n8:下居中\r\n9:右下角','只有开启水印功能才生效',1552435257,1552436082,1,'9','','',7),(14,'upload_thumb_water_alpha','text','水印透明度','upload','','请输入0~100之间的数字，数字越小，透明度越高',1552435299,1552436083,1,'50','','',8),(15,'web_logo','image','LOGO','upload','','',1721209954,1721209954,1,'/uploads/images/20240717/5e4bbd3844866f74473cfaa3e3d1163c.png','','',100),(17,'web_site_survey_result_display','switch','结论显示开关','base','','',1721382859,1721383029,1,'0','','',100);
 /*!40000 ALTER TABLE `yzn_config` ENABLE KEYS */;
 
 --
@@ -711,4 +711,4 @@ CREATE TABLE `yzn_terms` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-07-19 17:48:48
+-- Dump completed on 2024-07-19 18:01:44
