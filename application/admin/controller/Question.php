@@ -130,10 +130,8 @@ class Question extends Adminbase
      */
     public function edit()
     {
-        $id  = $this->request->param('id/d', 0);
-
+        $id  = $this->request->get('id/d', 0);
         $row = $this->modelClass->get($id);
-
         if (!$row) {
             $this->error('记录未找到');
         }
