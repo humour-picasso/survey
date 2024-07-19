@@ -184,5 +184,5 @@ return [
     //CDN地址
     'cdnurl'                  => '',
     //API接口地址
-    'api_url'                 => 'https://api.yzncms.com',
+    'api_url'                 => '',
 ];

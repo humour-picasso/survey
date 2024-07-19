@@ -18,6 +18,9 @@ class Survey extends Adminbase
      */
     protected $modelClass = null;
 
+
+    protected $apiRoute = '/api/survey/index';
+
     protected function initialize()
     {
         parent::initialize();
@@ -91,7 +94,7 @@ class Survey extends Adminbase
                     $params['create_at'] = time();
                     $domain = $this->request->domain();
                     $params['uuid'] = $this->generateUniqueId();
-                    $url = $domain . '/index/survey/index?uuid='.$params['uuid'];
+                    $url = $domain . $this->apiRoute . '?uuid='.$params['uuid'];
                     $path = './qrcode/'.$params['uuid'].'.png';
                     QRCode::generate($url, $path);
                     $params['qr_code'] = '/qrcode/'.$params['uuid'].'.png';
