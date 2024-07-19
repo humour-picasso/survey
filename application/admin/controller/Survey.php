@@ -89,13 +89,12 @@ class Survey extends Adminbase
                         $this->error('请选择分类');
                     }
                     $params['create_at'] = time();
-                    $path = './qrcode/'.$params['create_at'].'.png';
                     $domain = $this->request->domain();
-                    $params['uuid'] = self::generateUniqueId();
-                    $url = $domain . '/index/survey/index?id='.$param['uuid'];
+                    $params['uuid'] = $this->generateUniqueId();
+                    $url = $domain . '/index/survey/index?uuid='.$params['uuid'];
                     $path = './qrcode/'.$params['uuid'].'.png';
                     QRCode::generate($url, $path);
-                    $params['qr_code'] = '/qrcode/'.$params['create_at'].'.png';
+                    $params['qr_code'] = '/qrcode/'.$params['uuid'].'.png';
                     $params['categories'] = !empty($params['categories']) ? implode(',', $params['categories']) : $params['categories'][0];
                     $result = $this->modelClass->allowField(true)->save($params);
                     Db::commit();
