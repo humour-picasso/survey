@@ -1,0 +1,110 @@
+{extend name="index_layout"/}
+{block name="main"}
+<form class="layui-form" method="post">
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">QR Code</label>
+        <div class="layui-input-block">
+            <input id="c-qr_code" lay-verify="required" class=" layui-input" name="row[qr_code]" type="text">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">Survey Name</label>
+        <div class="layui-input-block">
+            <input id="c-survey_name" lay-verify="required" class=" layui-input" name="row[survey_name]" type="text">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">Survey Description</label>
+        <div class="layui-input-block">
+            <textarea id="c-survey_description" lay-verify="required" class=" layui-textarea" rows="5" name="row[survey_description]" cols="50"></textarea>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">User Name Required (0: No, 1: Yes)</label>
+        <div class="layui-input-block">
+            <input id="c-user_name_required" lay-verify="required" class=" layui-input" name="row[user_name_required]" type="number">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">User Name Display (0: No, 1: Yes)</label>
+        <div class="layui-input-block">
+            <input id="c-user_name_display" lay-verify="required" class=" layui-input" name="row[user_name_display]" type="number">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">User id Required (0: No, 1: Yes)</label>
+        <div class="layui-input-block">
+            <input id="c-user_id_required" lay-verify="required" class=" layui-input" name="row[user_id_required]" type="number">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">User id Display (0: No, 1: Yes)</label>
+        <div class="layui-input-block">
+            <input id="c-user_id_display" lay-verify="required" class=" layui-input" name="row[user_id_display]" type="number">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">User sex Required (0: No, 1: Yes)</label>
+        <div class="layui-input-block">
+            <input id="c-user_sex_required" lay-verify="required" class=" layui-input" name="row[user_sex_required]" type="number">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">User Sex Display (0: No, 1: Yes)</label>
+        <div class="layui-input-block">
+            <input id="c-user_sex_display" lay-verify="required" class=" layui-input" name="row[user_sex_display]" type="number">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">User birth Required (0: No, 1: Yes)</label>
+        <div class="layui-input-block">
+            <input id="c-user_birth_required" lay-verify="required" class=" layui-input" name="row[user_birth_required]" type="number">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">User Birth Display (0: No, 1: Yes)</label>
+        <div class="layui-input-block">
+            <input id="c-user_birth_display" lay-verify="required" class=" layui-input" name="row[user_birth_display]" type="number">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">User department Required (0: No, 1: Yes)</label>
+        <div class="layui-input-block">
+            <input id="c-user_department_required" lay-verify="required" class=" layui-input" name="row[user_department_required]" type="number">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">User Department Display (0: No, 1: Yes)</label>
+        <div class="layui-input-block">
+            <input id="c-user_department_display" lay-verify="required" class=" layui-input" name="row[user_department_display]" type="number">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">Created At</label>
+        <div class="layui-input-block">
+            <input id="c-created_at" lay-verify="required" data-date-type="datetime" class="datetime layui-input" name="row[created_at]" type="text" value="{:date('Y-m-d H:i:s')}">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">包含量表分类id,逗号分隔</label>
+        <div class="layui-input-block">
+            <input id="c-categories" lay-verify="required" class=" layui-input" name="row[categories]" type="text">
+        </div>
+    </div>
+    <div class="layui-form-item layer-footer">
+        <div class="layui-input-block">
+            <button class="layui-btn" lay-submit="">立即提交</button>
+            <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+        </div>
+    </div>
+</form>
+{/block}
+{block name="script"}
+<script type="text/javascript">
+layui.use('yznForm', function() {
+    var yznForm = layui.yznForm;
+    yznForm.bindevent($("form.layui-form"));
+});
+</script>
+{/block}
