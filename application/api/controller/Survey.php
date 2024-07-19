@@ -52,7 +52,7 @@ class Survey extends Api
         }
 
         $survey['categories'] = $categories;
-        $survey['web_site_survey_result_display'] =  config('site.web_site_survey_result_display');
+        $survey['web_site_survey_result_display'] =  config('web_site_survey_result_display');
         $this->success('发送成功', $survey);
     }
 
