@@ -655,8 +655,8 @@ layui.define(['layer', 'form', 'yzn', 'table', 'notice', 'element','yznUpload'],
                                 config.toolbars = [
                                     ['fullscreen', 'source', '|', 'undo', 'redo', '|','bold', 'italic', 'underline', 'pasteplain', '|', 
                                      'forecolor', 'backcolor', 'insertorderedlist', 'insertunorderedlist', '|','paragraph', 'fontfamily', 'fontsize', '|', 
-                                     'indent', '|','justifyleft', 'justifycenter', 'justifyright','|','link','|','simpleupload', 'insertimage', 'insertvideo',
-                                     'attachment', 'insertframe', 'pagebreak', '|','horizontal','inserttable', '|', 'preview']
+                                     'indent', '|','justifyleft', 'justifycenter', 'justifyright','|','link','|','simpleupload',
+                                     'pagebreak', '|','horizontal', '|']
                                 ];
                             }
                             ueditors[ueditor_name] = UE.getEditor(ueditor_name, config);

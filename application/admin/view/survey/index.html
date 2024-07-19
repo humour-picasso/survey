@@ -1,5 +1,12 @@
 {extend name="index_layout"/}
 {block name="main"}
+<style>
+    /* 自定义表格行高度 */
+    .layui-table-cell{
+        min-height: 100px;
+        max-height: 200px; /* 设置行高度 */
+    }
+</style>
 <div class="layui-card">
     <div class="layui-card-header">问卷管理</div>
     <div class="layui-card-body">
@@ -15,6 +22,9 @@
 </div>
 {/block}
 {block name="script"}
+<script type="text/html" id="ID-table-demo-templet-other">
+    <span class="layui-badge-rim" style="margin-right: 10px;">{{= d.score }}</span>
+  </script>
 <script type="text/javascript">
 layui.use('yznTable', function() {
     var table = layui.yznTable;
@@ -27,6 +37,8 @@ layui.use('yznTable', function() {
         delete_url: '{:url("del")}',
         modify_url: "{:url('multi')}",
         recyclebin_url: "{:url('recyclebin')}",
+        height: '100px',
+        escape:false,
     };
 
     table.render({
@@ -37,21 +49,20 @@ layui.use('yznTable', function() {
             [
                {type: 'checkbox', fixed: 'left' },
                {field: 'id', title: 'ID',minWidth:80},
-               {field: 'qr_code', title: '二维码',minWidth:80, searchOp: 'LIKE',minWidth:110},
+               {field: 'qr_code', title: '二维码',minWidth:80, templet: function(d){
+                return '<button data-url="'+ d.qr_code +'" type="button" class="view-qrcode layui-btn layui-btn-danger layui-btn-ms" lay-on="photo">查看二维码</button>';
+               }},
                {field: 'survey_name', title: '问卷名称',minWidth:80, searchOp: 'LIKE',minWidth:110},
-               {field: 'survey_description', title: '问卷描述',minWidth:80, searchOp: 'LIKE',minWidth:110},
-            //    {field: 'user_name_required', title: 'User Name Required (0: No, 1: Yes)',minWidth:80,minWidth:110},
-            //    {field: 'user_name_display', title: 'User Name Display (0: No, 1: Yes)',minWidth:80,minWidth:110},
-            //    {field: 'user_id_required', title: 'User id Required (0: No, 1: Yes)',minWidth:80,minWidth:110},
-            //    {field: 'user_id_display', title: 'User id Display (0: No, 1: Yes)',minWidth:80,minWidth:110},
-            //    {field: 'user_sex_required', title: 'User sex Required (0: No, 1: Yes)',minWidth:80,minWidth:110},
-            //    {field: 'user_sex_display', title: 'User Sex Display (0: No, 1: Yes)',minWidth:80,minWidth:110},
-            //    {field: 'user_birth_required', title: 'User birth Required (0: No, 1: Yes)',minWidth:80,minWidth:110},
-            //    {field: 'user_birth_display', title: 'User Birth Display (0: No, 1: Yes)',minWidth:80,minWidth:110},
-            //    {field: 'user_department_required', title: 'User department Required (0: No, 1: Yes)',minWidth:80,minWidth:110},
-            //    {field: 'user_department_display', title: 'User Department Display (0: No, 1: Yes)',minWidth:80,minWidth:110},
+               {field: 'survey_description', title: '问卷描述',minWidth:80, templet: yznTable.formatter.text},
                {field: 'created_at', title: '创建时间',minWidth:80,minWidth:110},
-               {field: 'categories', title: '包含量表分类',minWidth:80, searchOp: 'LIKE',minWidth:110},
+               {field: 'categories', title: '包含量表',minWidth:80,minWidth:110, templet: function(d){
+                var parts = d.categories.split(',');
+                var html = '';
+                for (var i = 0; i < parts.length; i++) {
+                    html += '<span class="layui-badge layui-bg-green">' + parts[i] + '</span><br/>';
+                }
+                return html;
+               }},
                {fixed: 'right',width:90,field: 'operate', title: '操作',templet: yznTable.formatter.tool,operat: ['edit','delete']}
             ]
         ],
@@ -59,6 +70,28 @@ layui.use('yznTable', function() {
     });
 
     yznTable.bindevent();
+});
+
+layui.use(function(){
+  var layer = layui.layer;
+  var util = layui.util;
+    util.on('lay-on', {
+        'photo': function(){
+            var image = $(this).data('url');
+            layer.photos({
+                photos: {
+                "title": "二维码",
+                "start": 0,
+                "data": [
+                    {
+                    "src": image,
+                    }
+                ]
+                },
+                footer: true // 显示底部
+            });
+        }
+    });
 });
 </script>
 {/block}

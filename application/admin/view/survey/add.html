@@ -3,93 +3,98 @@
 <form class="layui-form" method="post">
 
     <div class="layui-form-item">
-        <label class="layui-form-label">QR Code</label>
-        <div class="layui-input-block">
-            <input id="c-qr_code" lay-verify="required" class=" layui-input" name="row[qr_code]" type="text">
-        </div>
-    </div>
-    <div class="layui-form-item">
-        <label class="layui-form-label">Survey Name</label>
+        <label class="layui-form-label">问卷标题</label>
         <div class="layui-input-block">
             <input id="c-survey_name" lay-verify="required" class=" layui-input" name="row[survey_name]" type="text">
         </div>
     </div>
     <div class="layui-form-item">
-        <label class="layui-form-label">Survey Description</label>
+        <label class="layui-form-label">问卷描述</label>
         <div class="layui-input-block">
-            <textarea id="c-survey_description" lay-verify="required" class=" layui-textarea" rows="5" name="row[survey_description]" cols="50"></textarea>
+            <script type="text/plain" class="js-ueditor" data-simple-mode="1" id="survey_description" name="row[survey_description]"></script>
         </div>
     </div>
     <div class="layui-form-item">
-        <label class="layui-form-label">User Name Required (0: No, 1: Yes)</label>
+        <label class="layui-form-label">姓名显示</label>
         <div class="layui-input-block">
-            <input id="c-user_name_required" lay-verify="required" class=" layui-input" name="row[user_name_required]" type="number">
+            <input lay-verify="required" class=" layui-input" name="row[user_name_display]" value="1" type="radio" title="是" checked>
+            <input lay-verify="required" class=" layui-input" name="row[user_name_display]" value="0" type="radio" title="否">
         </div>
     </div>
     <div class="layui-form-item">
-        <label class="layui-form-label">User Name Display (0: No, 1: Yes)</label>
+        <label class="layui-form-label">姓名必填</label>
         <div class="layui-input-block">
-            <input id="c-user_name_display" lay-verify="required" class=" layui-input" name="row[user_name_display]" type="number">
+            <input lay-verify="required" class=" layui-input" name="row[user_name_required]" value="1" type="radio" title="是" > 
+            <input lay-verify="required" class=" layui-input" name="row[user_name_required]" value="0" type="radio" title="否" checked> 
+        </div>
+    </div>
+    
+    <div class="layui-form-item">
+        <label class="layui-form-label">编号显示</label>
+        <div class="layui-input-block">
+            <input lay-verify="required" class=" layui-input" name="row[user_id_display]" value="1" type="radio" title="是" checked>
+            <input lay-verify="required" class=" layui-input" name="row[user_id_display]" value="0" type="radio" title="否">
         </div>
     </div>
     <div class="layui-form-item">
-        <label class="layui-form-label">User id Required (0: No, 1: Yes)</label>
+        <label class="layui-form-label">编号必填</label>
         <div class="layui-input-block">
-            <input id="c-user_id_required" lay-verify="required" class=" layui-input" name="row[user_id_required]" type="number">
+            <input lay-verify="required" class=" layui-input" name="row[user_id_required]" value="1" type="radio" title="是">
+            <input lay-verify="required" class=" layui-input" name="row[user_id_required]" value="0" type="radio" title="否" checked>
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">性别显示</label>
+        <div class="layui-input-block">
+            <input lay-verify="required" class=" layui-input" name="row[user_sex_display]" value="1" type="radio" title="是" checked>
+            <input lay-verify="required" class=" layui-input" name="row[user_sex_display]" value="0" type="radio" title="否">
         </div>
     </div>
     <div class="layui-form-item">
-        <label class="layui-form-label">User id Display (0: No, 1: Yes)</label>
+        <label class="layui-form-label">性别必填</label>
         <div class="layui-input-block">
-            <input id="c-user_id_display" lay-verify="required" class=" layui-input" name="row[user_id_display]" type="number">
+            <input lay-verify="required" class=" layui-input" name="row[user_sex_required]" value="1" type="radio" title="是" > 
+            <input lay-verify="required" class=" layui-input" name="row[user_sex_required]" value="0" type="radio" title="否" checked> 
+        </div>
+    </div>
+    
+    <div class="layui-form-item">
+        <label class="layui-form-label">生日显示</label>
+        <div class="layui-input-block">
+            <input lay-verify="required" class=" layui-input" name="row[user_birth_display]" value="1" type="radio" title="是" checked>
+            <input lay-verify="required" class=" layui-input" name="row[user_birth_display]" value="0" type="radio" title="否">
         </div>
     </div>
     <div class="layui-form-item">
-        <label class="layui-form-label">User sex Required (0: No, 1: Yes)</label>
+        <label class="layui-form-label">生日必填</label>
         <div class="layui-input-block">
-            <input id="c-user_sex_required" lay-verify="required" class=" layui-input" name="row[user_sex_required]" type="number">
+            <input lay-verify="required" class=" layui-input" name="row[user_birth_required]" value="1" type="radio" title="是" > 
+            <input lay-verify="required" class=" layui-input" name="row[user_birth_required]" value="0" type="radio" title="否" checked> 
+        </div>
+    </div>
+    
+    <div class="layui-form-item">
+        <label class="layui-form-label">部门显示</label>
+        <div class="layui-input-block">
+            <input lay-verify="required" class=" layui-input" name="row[user_department_display]" value="1" type="radio" title="是" checked>
+            <input lay-verify="required" class=" layui-input" name="row[user_department_display]" value="0" type="radio" title="否">
         </div>
     </div>
     <div class="layui-form-item">
-        <label class="layui-form-label">User Sex Display (0: No, 1: Yes)</label>
+        <label class="layui-form-label">部门必填</label>
         <div class="layui-input-block">
-            <input id="c-user_sex_display" lay-verify="required" class=" layui-input" name="row[user_sex_display]" type="number">
+            <input lay-verify="required" class=" layui-input" name="row[user_department_required]" value="1" type="radio" title="是" > 
+            <input lay-verify="required" class=" layui-input" name="row[user_department_required]" value="0" type="radio" title="否" checked> 
         </div>
     </div>
+    
     <div class="layui-form-item">
-        <label class="layui-form-label">User birth Required (0: No, 1: Yes)</label>
+        <label class="layui-form-label">选择量表</label>
         <div class="layui-input-block">
-            <input id="c-user_birth_required" lay-verify="required" class=" layui-input" name="row[user_birth_required]" type="number">
-        </div>
-    </div>
-    <div class="layui-form-item">
-        <label class="layui-form-label">User Birth Display (0: No, 1: Yes)</label>
-        <div class="layui-input-block">
-            <input id="c-user_birth_display" lay-verify="required" class=" layui-input" name="row[user_birth_display]" type="number">
-        </div>
-    </div>
-    <div class="layui-form-item">
-        <label class="layui-form-label">User department Required (0: No, 1: Yes)</label>
-        <div class="layui-input-block">
-            <input id="c-user_department_required" lay-verify="required" class=" layui-input" name="row[user_department_required]" type="number">
-        </div>
-    </div>
-    <div class="layui-form-item">
-        <label class="layui-form-label">User Department Display (0: No, 1: Yes)</label>
-        <div class="layui-input-block">
-            <input id="c-user_department_display" lay-verify="required" class=" layui-input" name="row[user_department_display]" type="number">
-        </div>
-    </div>
-    <div class="layui-form-item">
-        <label class="layui-form-label">Created At</label>
-        <div class="layui-input-block">
-            <input id="c-created_at" lay-verify="required" data-date-type="datetime" class="datetime layui-input" name="row[created_at]" type="text" value="{:date('Y-m-d H:i:s')}">
-        </div>
-    </div>
-    <div class="layui-form-item">
-        <label class="layui-form-label">包含量表分类id,逗号分隔</label>
-        <div class="layui-input-block">
-            <input id="c-categories" lay-verify="required" class=" layui-input" name="row[categories]" type="text">
+            {volist name="category" id="v"}
+            <input lay-verify="required" class=" layui-input" name="row[categories][]" type="checkbox" value="{$v.id}" title="{$v.name}">
+            {/volist}
         </div>
     </div>
     <div class="layui-form-item layer-footer">
