@@ -5,4 +5,3 @@ composer.lock
 /runtime/*
 /templates/
 .env
-vendor/
