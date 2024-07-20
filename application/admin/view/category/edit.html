@@ -8,6 +8,12 @@
             <input id="c-name" lay-verify="required" class=" layui-input" name="row[name]" type="text" value="{$data.name}">
         </div>
     </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">量表描述</label>
+        <div class="layui-input-block">
+            <script type="text/plain" class="js-ueditor" data-simple-mode="1" id="description" name="row[description]" >{$data.description|raw}</script>
+        </div>
+    </div>
     <div class="layui-form-item layer-footer">
         <div class="layui-input-block">
             <button class="layui-btn" lay-submit="">立即提交</button>
