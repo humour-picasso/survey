@@ -16,6 +16,7 @@ namespace app\api\controller;
 
 use app\common\controller\Api;
 use app\admin\model\User;
+use app\admin\model\category\Score;
 use think\Db;
 /**
  * @title 邮箱验证码接口
@@ -63,31 +64,159 @@ class Survey extends Api
         }
         //获取参数
         $data = $this->request->post();
+        // $data 来源于以下json格式数据
+        // {
+        //     "uuid": "b1a6e4bf5040764a",
+        //     "user_name": "test",
+        //     "user_id": "123",
+        //     "birth":"1996-09-22",
+        //     "sex": "1", //1 男 2 女 3未知
+        //     "department": "技术部",
+        //     "categories": [
+        //         {
+        //             "id": 1,
+        //             "questions": [
+        //                 {
+        //                     "id": 7,
+        //                     "type": 1,
+        //                     "options":[
+        //                         {
+        //                             "id":27,
+        //                             "score":1
+        //                         }
+        //                     ]
+        //                 },
+        //                 {
+        //                     "id": 7,
+        //                     "type": 2,
+        //                     "options":[
+        //                         {
+        //                             "id":30,
+        //                             "score":1
+        //                         },
+        //                         {
+        //                             "id":31,
+        //                             "score":1
+        //                         }
+        //                     ]
+        //                 },
+        //                 {
+        //                     "id": 7,
+        //                     "type": 3,
+        //                     "options":[{
+        //                         "id":27,
+        //                         "result": "问答题答案是XXXXX"
+        //                     }]
+        //                 }
+        //             ]
+        //         }
+        //     ]
+        // }
+        
         $uuid = $data['uuid'];
         //获取问卷
         $survey = \app\admin\model\Survey::where('uuid', $uuid)->find();
         if (!$survey) {
             $this->error('问卷不存在');
         }
+        //计算分数
+        $score = 0;
+        foreach ($data['categories'] as $key => $value) {
+            foreach ($value['questions'] as $k => $v) {
+                if ($v['type'] == 1) {
+                    $score += $v['options'][0]['score'];
+                } elseif ($v['type'] == 2) {
+                    foreach ($v['options'] as $kk => $vv) {
+                        $score += $vv['score'];
+                    }
+                }
+            }
+        }
+
+        //遍历数组，查询各个category的分数对应的结论
+        $categoryScore = [];
+        foreach ($data['categories'] as $key => $value) {
+            $categoryScore[$key] = Score::where('cid', $value['id'])->where('score_start', '<=', $score)->where('score_end', '>=', $score)->find();
+        }
+        //开启事务
         DB::startTrans();
-        //添加用户信息到user表
-        $user = new User();
-        $userData = [
-            'sid' => $data['sid'],
-            'user_name' => $data['user_name'] ?? '',
-            'user_id' => $data['user_id'] ?? '',
-            'sex' => $data['sex'] ?? '',
-            'department' => $data['department'] ?? '',
-            'birth' => $data['birth'] ?? '',
-            'result_score' => $data['result_score'] ?? '',
-            'result_text' => $data['result_text'] ?? '',
-        ];
+        try {
+            //添加用户信息到user表
+            $user = new User();
+            $userData = [
+                'sid' => $survey['id'],
+                'user_name' => $data['user_name'] ?? '',
+                'user_id' => $data['user_id'] ?? '',
+                'sex' => $data['sex'] ?? '',
+                'department' => $data['department'] ?? '',
+                'birth' => $data['birth'] ?? '',
+            ];
+            $user->save($userData);
 
-        $user->save($userData);
+            //添加用户答案到user_answer表
+            $userAnswer = new \app\admin\model\UserAnswer();
+            $answerData = [];
+            foreach ($data['categories'] as $key => $value) {
+                foreach ($value['questions'] as $k => $v) {
+                    if ($v['type'] == 1) {
+                        $answerData[] = [
+                            'uid' => $user->id,
+                            'cid' => $value['id'],
+                            'qid' => $v['id'],
+                            'oid' => $v['options'][0]['id'],
+                            'score' => $v['options'][0]['score'],
+                        ];
+                    } elseif ($v['type'] == 2) {
+                        foreach ($v['options'] as $kk => $vv) {
+                            $answerData[] = [
+                                'uid' => $user->id,
+                                'cid' => $value['id'],
+                                'qid' => $v['id'],
+                                'oid' => $vv['id'],
+                                'score' => $vv['score'],
+                            ];
+                        }
+                    } elseif ($v['type'] == 3) {
+                        $answerData[] = [
+                            'uid' => $user->id,
+                            'cid' => $value['id'],
+                            'qid' => $v['id'],
+                            'oid' => 0,
+                            'answer' => $v['options'][0]['result'],
+                        ];
+                    }
+                }
+            }
+            if (empty($answerData)) {
+                throw new \Exception('答案为空，回答问卷失败');
+            }
+            $userAnswer->saveAll($answerData);
 
+            //添加用户结论到user_result表
+            $userResult = new \app\admin\model\UserResult();
+            foreach ($categoryScore as $key => $value) {
+                $resultData[] = [
+                    'uid' => $user->id,
+                    'cid' => $value['cid'],
+                    'score' => $score,
+                    'result' => $value['result'],
+                ];
+            }
+            if (empty($resultData)) {
+                throw new \Exception('结论为空，请检查问卷配置');
+            }
+            $userResult->saveAll($resultData);
+            //提交事务
+            DB::commit();
+        } catch (\Exception $e) {
+            //回滚事务
+            DB::rollback();
+            $this->error($e->getMessage());
+        }
+
+        //返回结果
+        $this->success('提交成功', $resultData);
         
     }
-
-
 
 }

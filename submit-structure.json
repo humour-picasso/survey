@@ -1,0 +1,47 @@
+{
+    "uuid": "b1a6e4bf5040764a",
+    "user_name": "张三",
+    "user_id": "123",
+    "birth": "1996-09-22",
+    "sex": "1", //1 男 2 女 3未知
+    "department": "技术部",
+    "categories": [
+        {
+            "id": 1,
+            "questions": [
+                {
+                    "id": 7,
+                    "type": 1, //1 单选 2 多选 3 问答
+                    "options":[
+                        {
+                            "id":27,
+                            "score":1
+                        }
+                    ]
+                },
+                {
+                    "id": 7,
+                    "type": 2,
+                    "options":[
+                        {
+                            "id":30,
+                            "score":1
+                        },
+                        {
+                            "id":31,
+                            "score":1
+                        }
+                    ]
+                },
+                {
+                    "id": 7,
+                    "type": 3,
+                    "options":[{
+                        "id":27,
+                        "result": "问答题答案是XXXXX"
+                    }]
+                }
+            ]
+        }
+    ]
+}

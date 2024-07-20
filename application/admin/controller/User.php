@@ -64,4 +64,10 @@ class User extends Adminbase
         return $this->fetch();
     }
 
+    public function view($id)
+    {
+        var_dump($id);
+        return $this->fetch();
+    }
+
 }

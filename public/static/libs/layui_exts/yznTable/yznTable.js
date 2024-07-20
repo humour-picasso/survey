@@ -743,6 +743,23 @@ layui.define(['form', 'table', 'yzn', 'laydate', 'laytpl', 'element','notice'], 
                 $.each(that.operat, function(i, item) {
                     if (typeof item === 'string') {
                         switch (item) {
+                            case 'view':
+                                var operat = {
+                                    class: 'layui-btn layui-btn-normal layui-btn-xs',
+                                    method: 'open',
+                                    field: 'id',
+                                    icon: '',
+                                    auth: 'view',
+                                    text: "<i class='iconfont icon-eye-fill'></i>",
+                                    title: '查看信息',
+                                    url: that.init.view_url,
+                                    extend: ""
+                                };
+                                operat.url = yznTable.toolSpliceUrl(operat.url, operat.field, data);
+                                if (yzn.checkAuth(operat.auth, elem)) {
+                                    html += yznTable.buildOperatHtml(operat);
+                                }
+                                break;
                             case 'edit':
                                 var operat = {
                                     class: 'layui-btn layui-btn-success layui-btn-xs',
