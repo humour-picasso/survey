@@ -3,7 +3,7 @@
 namespace app\admin\controller;
 
 use app\common\controller\Adminbase;
-
+use think\Db;
 /**
  * 
  */
@@ -66,7 +66,12 @@ class User extends Adminbase
 
     public function view($id)
     {
-        var_dump($id);
+        $where = ['uid'=>$id];
+        
+        $list = Db::name('user_result')->join('category', 'category.id = cid')
+                ->where($where)
+                ->select();
+        $this->assign('data', $list);
         return $this->fetch();
     }
 

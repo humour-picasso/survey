@@ -27,5 +27,4 @@ class UserResult extends Model
     protected $append = [
 
     ];
-
 }

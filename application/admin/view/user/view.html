@@ -1,0 +1,14 @@
+{extend name="index_layout"/}
+{block name="main"}
+{volist name="data" id="item"}
+<div class="layui-card">
+    <div class="layui-card-header">
+        <span class="layui-badge layui-bg-blue">{$item.name}</span>
+    </div>
+    <div class="layui-card-body">
+        分数：{$item.score}<br/>
+        结论：{$item.result}
+    </div>
+</div>
+{/volist}
+{/block}
