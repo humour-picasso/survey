@@ -200,6 +200,7 @@ class Survey extends Api
                     'cid' => $value['cid'],
                     'score' => $score,
                     'result' => $value['result'],
+                    'title' => \app\admin\model\Category::where('id', $value['cid'])->value('name'),
                 ];
             }
             if (empty($resultData)) {
