@@ -44,8 +44,12 @@ class Survey extends Api
             $categories[$key] = \app\admin\model\Category::where('id', $value)->find();
             //获取题目
             $categories[$key]['questions'] = \app\admin\model\Question::where('cid', $value)->select();
-            foreach ($categories[$key]['questions'] as $k => $v) {
-                $categories[$key]['questions'][$k]['options'] = \app\admin\model\Options::where('qid', $v['id'])->select();
+            if (empty($categories[$key]['questions'])) {
+                unset($categories[$key]);
+            } else {
+                foreach ($categories[$key]['questions'] as $k => $v) {
+                    $categories[$key]['questions'][$k]['options'] = \app\admin\model\Options::where('qid', $v['id'])->select();
+                }
             }
         }
 
