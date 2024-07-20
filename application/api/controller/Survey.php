@@ -44,7 +44,7 @@ class Survey extends Api
             $categories[$key] = \app\admin\model\Category::where('id', $value)->find();
             //获取题目
             $categories[$key]['questions'] = \app\admin\model\Question::where('cid', $value)->select();
-            if (empty($categories[$key]['questions'])) {
+            if (empty($categories[$key]['questions']->toArray())) {
                 unset($categories[$key]);
             } else {
                 foreach ($categories[$key]['questions'] as $k => $v) {
@@ -52,7 +52,7 @@ class Survey extends Api
                 }
             }
         }
-
+        
         $survey['categories'] = $categories;
         $survey['web_site_survey_result_display'] =  config('site.web_site_survey_result_display');
         $this->success('发送成功', $survey);
