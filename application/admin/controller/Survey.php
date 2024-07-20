@@ -19,7 +19,7 @@ class Survey extends Adminbase
     protected $modelClass = null;
 
 
-    protected $apiRoute = '/api/survey/index';
+    protected $apiRoute = '/app/#/pages/login/login';
 
     protected function initialize()
     {
