@@ -3,6 +3,7 @@
 namespace app\admin\model\category;
 
 use think\Model;
+use app\admin\model\UserResult;
 
 
 class Score extends Model

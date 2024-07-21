@@ -158,4 +158,42 @@ class Score extends Adminbase
         return $this->fetch();
     }
 
+
+
+    /**
+     * 得分统计
+     */
+    public function score()
+    {
+        //当前是否为关联查询
+        $this->relationSearch = true;
+        //设置过滤方法
+        $this->request->filter(['strip_tags', 'trim']);
+        if ($this->request->isAjax()) {
+            //如果发送的来源是Selectpage，则转发到Selectpage
+            if ($this->request->request('keyField')) {
+                return $this->selectpage();
+            }
+            [$page, $limit, $where, $sort, $order] = $this->buildTableParames();
+
+            $list = $this->modelClass
+                    ->withJoin(['category'])
+                    ->where($where)
+                    ->order($sort, $order)
+                    ->paginate($limit);
+
+            foreach ($list as $key=>$row) {
+                $row->getRelation('category')->visible(['name']);
+                $list[$key]['userCount'] = Db::name('user_result')
+                ->where('score', '>=', $row['score_start'])
+                ->where('score', '<=', $row['score_end'])
+                ->where('cid', $row['cid'])
+                ->count();
+            }
+            $result = ["code" => 0, "count" => $list->total(), "data" => $list->items()];
+            return json($result);
+        }
+        return $this->fetch();
+    }
+
 }
