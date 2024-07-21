@@ -21,13 +21,15 @@ layui.use('yznTable', function() {
         table_render_id: 'currentTable',
         view_url: '{:url("view")}',
         delete_url: '{:url("del")}',
+        export_url: '{:url("export")}',
+        export_all_url: '{:url("exportAll")}',
     };
 
     table.render({
         init: init,
-        toolbar: ['refresh', 'delete'],
+        toolbar: ['refresh', 'delete', 'export', 'export_all'],
         url: '{:url("index")}',
-        defaultToolbar: ['filter',],
+        defaultToolbar: ['filter'],
         searchInput: false,
         cols: [
             [

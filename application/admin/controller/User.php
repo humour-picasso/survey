@@ -75,11 +75,46 @@ class User extends Adminbase
     }
 
 
+
     /**
-     * 导出用户信息和问卷回答的所有信息到excel
+     * 导出excel
      */
     public function export() {
-        
+        //当前是否为关联查询
+        $this->relationSearch = true;
+        //设置过滤方法
+        $this->request->filter(['strip_tags', 'trim']);
+        if ($this->request->isAjax()) {
+            var_dump($this->request->post());
+            exit;
+            //如果发送的来源是Selectpage，则转发到Selectpage
+            if ($this->request->request('keyField')) {
+                return $this->selectpage();
+            }
+            [$page, $limit, $where, $sort, $order] = $this->buildTableParames();
+            $list = $this->modelClass
+                    ->withJoin(['survey'])
+                    ->where($where)
+                    ->order($sort, $order)
+                    ->paginate($limit);
+
+            foreach ($list as $row) {
+                
+                $row->getRelation('survey')->visible(['survey_name']);
+            }
+
+            $result = ["code" => 0, "count" => $list->total(), "data" => $list->items()];
+
+            return json($result);
+        }
     }
 
+
+
+    /**
+     * 导出所有数据
+     */
+    public function exportAll() {
+        
+    }
 }

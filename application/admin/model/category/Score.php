@@ -35,9 +35,6 @@ class Score extends Model
         return $this->belongsTo('app\admin\model\Category', 'cid', 'id', [], 'LEFT');
     }
 
-    public function survey()
-    {
-        return $this->belongsTo('app\admin\model\Survey', 'sid', 'id', [], 'LEFT');
-    }
+    
 
 }

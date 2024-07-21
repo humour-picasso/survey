@@ -125,6 +125,21 @@ layui.define(['form', 'table', 'yzn', 'laydate', 'laytpl', 'element','notice'], 
                 });
                 return false;
             });
+
+            //监听导出所有数据
+            $(document).on('click', '#export_all', function() {
+                var that = $(this),
+                url = that.attr('data-href');
+                url = url !== undefined ? url : window.location.href;
+                yzn.request.post({
+                    url: url,
+                }, function(data,res) {
+                    notice.success({ message: res.msg });
+                    tableId && table.reload(tableId);
+                }, function(data,res) {
+                    notice.error({ message: res.msg });
+                });
+            });
             // 监听动态表格刷新
             $(document).on('click', '[data-table-refresh]', function() {
                 var tableId = $(this).attr('data-table-refresh');
@@ -258,6 +273,14 @@ layui.define(['form', 'table', 'yzn', 'laydate', 'laytpl', 'element','notice'], 
                 } else if (v === 'destroy') {
                     if (yzn.checkAuth('destroy', elem)) {
                         toolbarHtml += '<button class="layui-btn layui-btn-sm confirm layui-btn-danger" data-href="' + init.destroy_url + '" data-batch-all="' + tableId + '"><i class="iconfont icon-close"></i> 销毁</button>\n';
+                    }
+                } else if (v === 'export') {
+                    if (yzn.checkAuth('export', elem)) {
+                        toolbarHtml += '<button class="layui-btn layui-btn-sm layui-btn-success" data-href="' + init.export_url + '" data-batch-all="' + tableId + '"><i class="iconfont icon-send"></i> 导出选中</button>\n';
+                    }
+                } else if (v === 'export_all') {
+                    if (yzn.checkAuth('export_all', elem)) {
+                        toolbarHtml += '<button id="export_all" class="layui-btn layui-btn-sm layui-btn-blue" data-href="' + init.export_all_url + '"><i class="iconfont icon-cloud-download"></i> 导出全部数据</button>\n';
                     }
                 } else if (typeof v === "object") {
                     $.each(v, function(ii, vv) {
