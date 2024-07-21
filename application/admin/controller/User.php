@@ -45,7 +45,6 @@ class User extends Adminbase
                 return $this->selectpage();
             }
             [$page, $limit, $where, $sort, $order] = $this->buildTableParames();
-
             $list = $this->modelClass
                     ->withJoin(['survey'])
                     ->where($where)
@@ -73,6 +72,14 @@ class User extends Adminbase
                 ->select();
         $this->assign('data', $list);
         return $this->fetch();
+    }
+
+
+    /**
+     * 导出用户信息和问卷回答的所有信息到excel
+     */
+    public function export() {
+        
     }
 
 }

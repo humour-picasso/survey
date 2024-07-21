@@ -20,6 +20,7 @@ class ComposerStaticInitd11f0f01dec76b574ca06b06a7e56837
         'b6b991a57620e2fb6b2f66f03fe9ddc2' => __DIR__ . '/..' . '/symfony/string/Resources/functions.php',
         '37a3dc5111fe8f707ab4c132ef1dbc62' => __DIR__ . '/..' . '/guzzlehttp/guzzle/src/functions_include.php',
         '0d59ee240a4cd96ddbb4ff164fccea4d' => __DIR__ . '/..' . '/symfony/polyfill-php73/bootstrap.php',
+        '2cffec82183ee1cea088009cef9a6fc3' => __DIR__ . '/..' . '/ezyang/htmlpurifier/library/HTMLPurifier.composer.php',
         'a9ed0d27b5a698798a89181429f162c5' => __DIR__ . '/..' . '/khanamiryan/qrcode-detector-decoder/lib/Common/customFunctions.php',
         'dc1275c308c5b416beb314b6317daca2' => __DIR__ . '/..' . '/overtrue/pinyin/src/const.php',
         '1d5ebe9158fc85f3b73b6a4c04a338fb' => __DIR__ . '/..' . '/yzncms/think-addons/src/common.php',
@@ -41,6 +42,7 @@ class ComposerStaticInitd11f0f01dec76b574ca06b06a7e56837
         'Z' => 
         array (
             'Zxing\\' => 6,
+            'ZipStream\\' => 10,
         ),
         'Y' => 
         array (
@@ -69,11 +71,13 @@ class ComposerStaticInitd11f0f01dec76b574ca06b06a7e56837
         ),
         'P' => 
         array (
+            'Psr\\SimpleCache\\' => 16,
             'Psr\\Log\\' => 8,
             'Psr\\Http\\Message\\' => 17,
             'Psr\\Http\\Client\\' => 16,
             'Psr\\Container\\' => 14,
             'PhpZip\\' => 7,
+            'PhpOffice\\PhpSpreadsheet\\' => 25,
         ),
         'O' => 
         array (
@@ -83,6 +87,7 @@ class ComposerStaticInitd11f0f01dec76b574ca06b06a7e56837
         array (
             'MyCLabs\\Enum\\' => 13,
             'Monolog\\' => 8,
+            'Matrix\\' => 7,
         ),
         'G' => 
         array (
@@ -97,6 +102,10 @@ class ComposerStaticInitd11f0f01dec76b574ca06b06a7e56837
         'D' => 
         array (
             'DASPRiD\\Enum\\' => 13,
+        ),
+        'C' => 
+        array (
+            'Complex\\' => 8,
         ),
         'B' => 
         array (
@@ -126,6 +135,10 @@ class ComposerStaticInitd11f0f01dec76b574ca06b06a7e56837
         'Zxing\\' => 
         array (
             0 => __DIR__ . '/..' . '/khanamiryan/qrcode-detector-decoder/lib',
+        ),
+        'ZipStream\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/maennchen/zipstream-php/src',
         ),
         'Yansongda\\Supports\\' => 
         array (
@@ -203,14 +216,18 @@ class ComposerStaticInitd11f0f01dec76b574ca06b06a7e56837
         array (
             0 => __DIR__ . '/..' . '/symfony/event-dispatcher',
         ),
+        'Psr\\SimpleCache\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/psr/simple-cache/src',
+        ),
         'Psr\\Log\\' => 
         array (
             0 => __DIR__ . '/..' . '/psr/log/Psr/Log',
         ),
         'Psr\\Http\\Message\\' => 
         array (
-            0 => __DIR__ . '/..' . '/psr/http-message/src',
-            1 => __DIR__ . '/..' . '/psr/http-factory/src',
+            0 => __DIR__ . '/..' . '/psr/http-factory/src',
+            1 => __DIR__ . '/..' . '/psr/http-message/src',
         ),
         'Psr\\Http\\Client\\' => 
         array (
@@ -224,6 +241,10 @@ class ComposerStaticInitd11f0f01dec76b574ca06b06a7e56837
         array (
             0 => __DIR__ . '/..' . '/nelexa/zip/src',
         ),
+        'PhpOffice\\PhpSpreadsheet\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/phpoffice/phpspreadsheet/src/PhpSpreadsheet',
+        ),
         'Overtrue\\Pinyin\\' => 
         array (
             0 => __DIR__ . '/..' . '/overtrue/pinyin/src',
@@ -235,6 +256,10 @@ class ComposerStaticInitd11f0f01dec76b574ca06b06a7e56837
         'Monolog\\' => 
         array (
             0 => __DIR__ . '/..' . '/monolog/monolog/src/Monolog',
+        ),
+        'Matrix\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/markbaker/matrix/classes/src',
         ),
         'GuzzleHttp\\Psr7\\' => 
         array (
@@ -256,9 +281,23 @@ class ComposerStaticInitd11f0f01dec76b574ca06b06a7e56837
         array (
             0 => __DIR__ . '/..' . '/dasprid/enum/src',
         ),
+        'Complex\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/markbaker/complex/classes/src',
+        ),
         'BaconQrCode\\' => 
         array (
             0 => __DIR__ . '/..' . '/bacon/bacon-qr-code/src',
+        ),
+    );
+
+    public static $prefixesPsr0 = array (
+        'H' => 
+        array (
+            'HTMLPurifier' => 
+            array (
+                0 => __DIR__ . '/..' . '/ezyang/htmlpurifier/library',
+            ),
         ),
     );
 
@@ -278,6 +317,7 @@ class ComposerStaticInitd11f0f01dec76b574ca06b06a7e56837
         return \Closure::bind(function () use ($loader) {
             $loader->prefixLengthsPsr4 = ComposerStaticInitd11f0f01dec76b574ca06b06a7e56837::$prefixLengthsPsr4;
             $loader->prefixDirsPsr4 = ComposerStaticInitd11f0f01dec76b574ca06b06a7e56837::$prefixDirsPsr4;
+            $loader->prefixesPsr0 = ComposerStaticInitd11f0f01dec76b574ca06b06a7e56837::$prefixesPsr0;
             $loader->classMap = ComposerStaticInitd11f0f01dec76b574ca06b06a7e56837::$classMap;
 
         }, null, ClassLoader::class);
