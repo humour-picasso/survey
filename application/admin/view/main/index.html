@@ -6,14 +6,14 @@
 </div>
 {/notempty}
 {if $Think.config.app_debug}
-<div class="alert alert-danger-light">
+<!-- <div class="alert alert-danger-light">
     安全提示：当前网站【调试模式】开启中，强烈建议在正式部署后关闭调试模式
-</div>
+</div> -->
 {/if}
 {if $Think.config.app_trace}
-<div class="alert alert-danger-light">
+<!-- <div class="alert alert-danger-light">
     安全提示：当前网站【Trace调试】开启中，强烈建议在正式部署后关闭Trace调试
-</div>
+</div> -->
 {/if}
 <div class="alert alert-success-light">
     <div id="nowTime"></div>
@@ -78,18 +78,7 @@
                         <col width="40%">
                     </colgroup>
                     <tbody>
-                        <tr>
-                            <td>当前版本</td>
-                            <td class="version">yzncms v{$Think.config.version.yzncms_version}</td>
-                            <td>ThinkPHP版本</td>
-                            <td class="version">{$Think.VERSION}</td>
-                        </tr>
-                        <tr>
-                            <td>PHP 版本</td>
-                            <td>{$sys_info.phpv}</td>
-                            <td>数据库版本</td>
-                            <td>{$sys_info.mysql_version}</td>
-                        </tr>
+                        
                         <tr>
                             <td>服务器域名/IP</td>
                             <td>{$sys_info.domain} [ {$sys_info.ip} ]</td>
