@@ -125,13 +125,14 @@ class User extends Adminbase
         // 创建新的电子表格对象
         $spreadsheet = new Spreadsheet();
 
+        $sheet = $spreadsheet->getActiveSheet();
         // 设置活动工作表的标题
-        $spreadsheet->getActiveSheet()->setTitle('问卷调查结果');
+        $sheet->setTitle('问卷调查结果');
 
-        $spreadsheet->getActiveSheet()->fromArray($header, NULL, 'A1');
+        $sheet->fromArray($header, NULL, 'A1');
 
         // 将数据写入表格，从第二行开始
-        $spreadsheet->getActiveSheet()->fromArray($excelData, NULL, 'A2');
+        $sheet->fromArray($excelData, NULL, 'A2');
          // 确定最大列数
          $highestColumn = $sheet->getHighestColumn();
 
@@ -207,13 +208,14 @@ class User extends Adminbase
         // 创建新的电子表格对象
         $spreadsheet = new Spreadsheet();
 
+        $sheet = $spreadsheet->getActiveSheet();
         // 设置活动工作表的标题
-        $spreadsheet->getActiveSheet()->setTitle('问卷调查结果');
+        $sheet->setTitle('问卷调查结果');
 
-        $spreadsheet->getActiveSheet()->fromArray($header, NULL, 'A1');
+        $sheet->fromArray($header, NULL, 'A1');
 
         // 将数据写入表格，从第二行开始
-        $spreadsheet->getActiveSheet()->fromArray($excelData, NULL, 'A2');
+        $sheet->fromArray($excelData, NULL, 'A2');
 
         // 确定最大列数
         $highestColumn = $sheet->getHighestColumn();
