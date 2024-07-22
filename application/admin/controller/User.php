@@ -96,7 +96,7 @@ class User extends Adminbase
         $excelData = [];
         foreach ($list as $key => $row) {
             $excelData[$key][] = $row['user_name'];
-            $excelData[$key][] = $row['user_id'];
+            $excelData[$key][] = "'".$row['user_id']."'";
             $excelData[$key][] = $row['sex'];
             $excelData[$key][] = $row['birth'];
             $excelData[$key][] = $row['department'];
@@ -168,7 +168,7 @@ class User extends Adminbase
         $excelData = [];
         foreach ($list as $key => $row) {
             $excelData[$key][] = $row['user_name'];
-            $excelData[$key][] = $row['user_id'];
+            $excelData[$key][] = "'".$row['user_id']."'";
             $excelData[$key][] = $row['sex'];
             $excelData[$key][] = $row['birth'];
             $excelData[$key][] = $row['department'];
