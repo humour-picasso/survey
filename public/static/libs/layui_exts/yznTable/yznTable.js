@@ -125,7 +125,37 @@ layui.define(['form', 'table', 'yzn', 'laydate', 'laytpl', 'element','notice'], 
                 });
                 return false;
             });
-
+            //监听导出选中数据
+            $(document).on('click', '#export', function() {
+                var that = $(this),
+                    tableId = that.attr('data-batch-all'),
+                    url = that.attr('data-href');
+                tableId = tableId || init.table_render_id;
+                url = url !== undefined ? url : window.location.href;
+                var checkStatus = table.checkStatus(tableId),
+                    data = checkStatus.data;
+                if (data.length <= 0) {
+                    yzn.msg.error('请选择要操作的数据');
+                    return false;
+                }
+                var ids = [];
+                $.each(data, function(i, v) {
+                    ids.push(v.id);
+                });
+                yzn.request.post({
+                    url: url,
+                    data: {
+                        id: ids
+                    }
+                }, function(data,res) {
+                    notice.success({ message: res.msg });
+                    // 通过设置window.location来触发下载
+                    window.location = res.url;
+                    tableId && table.reload(tableId);
+                }, function(data,res) {
+                    notice.error({ message: res.msg });
+                });
+            });
             //监听导出所有数据
             $(document).on('click', '#export_all', function() {
                 var that = $(this),
@@ -276,7 +306,7 @@ layui.define(['form', 'table', 'yzn', 'laydate', 'laytpl', 'element','notice'], 
                     }
                 } else if (v === 'export') {
                     if (yzn.checkAuth('export', elem)) {
-                        toolbarHtml += '<button class="layui-btn layui-btn-sm layui-btn-success" data-href="' + init.export_url + '" data-batch-all="' + tableId + '"><i class="iconfont icon-send"></i> 导出选中</button>\n';
+                        toolbarHtml += '<button id="export" class="layui-btn layui-btn-sm  layui-btn-success" data-href="' + init.export_url + '"><i class="iconfont icon-send"></i> 导出选中</button>\n';
                     }
                 } else if (v === 'export_all') {
                     if (yzn.checkAuth('export_all', elem)) {

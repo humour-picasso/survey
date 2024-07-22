@@ -34,6 +34,7 @@ layui.use('yznTable', function() {
         table_render_id: 'currentTable',
         add_url: '{:url("add")}',
         edit_url: '{:url("edit")}',
+        view_url: '{:url("user/index")}',
         delete_url: '{:url("del")}',
         modify_url: "{:url('multi')}",
         recyclebin_url: "{:url('recyclebin')}",
@@ -49,13 +50,13 @@ layui.use('yznTable', function() {
         cols: [
             [
                {type: 'checkbox', fixed: 'left' },
-               {field: 'id', title: 'ID',minWidth:80},
-               {field: 'qr_code', title: '二维码',minWidth:80, templet: function(d){
+               {field: 'id', title: 'ID',maxWidth:80},
+               {field: 'qr_code', title: '二维码',width:150, templet: function(d){
                 return '<button data-url="'+ d.qr_code +'" type="button" class="view-qrcode layui-btn layui-btn-danger layui-btn-ms" lay-on="photo">查看二维码</button>';
                }},
                {field: 'survey_name', title: '问卷名称',minWidth:80, searchOp: 'LIKE',minWidth:110},
-               {field: 'created_at', title: '创建时间',minWidth:80,minWidth:110},
-               {field: 'categories', title: '包含量表',minWidth:80,minWidth:110, templet: function(d){
+               {field: 'created_at', title: '创建时间',width:180},
+               {field: 'categories', title: '包含量表',minWidth:80, templet: function(d){
                 var parts = d.categories.split(',');
                 var html = '';
                 for (var i = 0; i < parts.length; i++) {
@@ -63,7 +64,7 @@ layui.use('yznTable', function() {
                 }
                 return html;
                }},
-               {fixed: 'right',width:90,field: 'operate', title: '操作',templet: yznTable.formatter.tool,operat: ['edit','delete']}
+               {fixed: 'right',width:150,field: 'operate', title: '操作',templet: yznTable.formatter.tool,operat: ['edit','view','delete']}
             ]
         ],
         page: {}
