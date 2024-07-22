@@ -5,6 +5,7 @@ namespace app\admin\controller;
 use app\common\controller\Adminbase;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
+use PhpOffice\PhpSpreadsheet\Cell\Coordinate;
 use think\Db;
 /**
  * 
@@ -131,7 +132,17 @@ class User extends Adminbase
 
         // 将数据写入表格，从第二行开始
         $spreadsheet->getActiveSheet()->fromArray($excelData, NULL, 'A2');
+         // 确定最大列数
+         $highestColumn = $sheet->getHighestColumn();
 
+         // 将列字母转换为数字
+         $highestColumnIndex = Coordinate::columnIndexFromString($highestColumn);
+ 
+         // 遍历所有列并设置宽度自适应
+         for ($col = 1; $col <= $highestColumnIndex; $col++) {
+             $columnLetter = Coordinate::stringFromColumnIndex($col);
+             $sheet->getColumnDimension($columnLetter)->setAutoSize(true);
+         }
         // 创建 XLSX 文件
         $writer = new Xlsx($spreadsheet);
 
@@ -203,6 +214,18 @@ class User extends Adminbase
 
         // 将数据写入表格，从第二行开始
         $spreadsheet->getActiveSheet()->fromArray($excelData, NULL, 'A2');
+
+        // 确定最大列数
+        $highestColumn = $sheet->getHighestColumn();
+
+        // 将列字母转换为数字
+        $highestColumnIndex = Coordinate::columnIndexFromString($highestColumn);
+
+        // 遍历所有列并设置宽度自适应
+        for ($col = 1; $col <= $highestColumnIndex; $col++) {
+            $columnLetter = Coordinate::stringFromColumnIndex($col);
+            $sheet->getColumnDimension($columnLetter)->setAutoSize(true);
+        }
 
         // 创建 XLSX 文件
         $writer = new Xlsx($spreadsheet);
