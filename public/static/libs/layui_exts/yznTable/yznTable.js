@@ -157,14 +157,27 @@ layui.define(['form', 'table', 'yzn', 'laydate', 'laytpl', 'element','notice'], 
                 });
             });
             //监听导出所有数据
+            
             $(document).on('click', '#export_all', function() {
+                var that = this;
+                that.$commonsearch = $(".table-search-fieldset");
+                var tableId = '#currentTable'
+                layui.define(['yznForm'], function(exports) {
+                    var yznForm = layui.yznForm;
+                    yznForm.bindevent(that.$commonsearch);
+
+                })
+                var searchQuery = yznTable.getSearchQuery(that, true);
                 var that = $(this),
                 url = that.attr('data-href');
                 url = url !== undefined ? url : window.location.href;
                 yzn.request.post({
                     url: url,
+                    data: JSON.stringify(searchQuery.filter),
                 }, function(data,res) {
                     notice.success({ message: res.msg });
+                    // 通过设置window.location来触发下载
+                    window.location = res.url;
                     tableId && table.reload(tableId);
                 }, function(data,res) {
                     notice.error({ message: res.msg });

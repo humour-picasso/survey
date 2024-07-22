@@ -148,14 +148,21 @@ class User extends Adminbase
      * 导出所有数据
      */
     public function exportAll() {
-        $where = ['yzn_user.id'=>$ids];
+        //当前是否为关联查询
+        $this->relationSearch = true;
+        //设置过滤方法
+        $this->request->filter(['strip_tags', 'trim']);
+        [$page, $limit, $where, $sort, $order] = $this->buildTableParames();
+                   
         $list = Db::name('user')->alias('u')
                 ->leftjoin('survey s', 's.id = sid')
                 ->where($where)
                 ->field(['u.*','s.categories','s.id as sid', 's.survey_name'])
                 ->select();
+
+
         if (count(array_unique(array_column($list, 'sid'))) > 1) {
-            $this->error('请选择同一个调查问卷的数据');
+            $this->error('请先筛选同一个调查问卷的数据');
         }
         $header = ['姓名', '编号', '性别', '生日', '部门', '调查问卷'];
         $excelData = [];
@@ -201,9 +208,9 @@ class User extends Adminbase
         $writer = new Xlsx($spreadsheet);
 
         // 保存文件到本地
-        $outputFileName = './wjdc.xlsx';
+        $outputFileName = './wjdc_all.xlsx';
         $writer->save($outputFileName);
 
-        $this->success('导出成功', '/wjdc.xlsx');
+        $this->success('导出成功', '/wjdc_all.xlsx');
     }
 }
