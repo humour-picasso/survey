@@ -169,10 +169,10 @@ layui.define(['form', 'table', 'yzn', 'laydate', 'laytpl', 'element','notice'], 
                 })
                 var searchQuery = yznTable.getSearchQuery(that, true);
                 var that = $(this),
-                url = that.attr('data-href');
+                url = that.attr('data-href') + '?filter=' + JSON.stringify(searchQuery.filter);
                 url = url !== undefined ? url : window.location.href;
                 yzn.request.post({
-                    url: url + '?filter=' + JSON.stringify(searchQuery.filter),
+                    url: url,
                 }, function(data,res) {
                     notice.success({ message: res.msg });
                     // 通过设置window.location来触发下载
