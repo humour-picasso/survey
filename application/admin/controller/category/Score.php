@@ -56,9 +56,10 @@ class Score extends Adminbase
                     ->order($sort, $order)
                     ->paginate($limit);
 
-            foreach ($list as $row) {
+            foreach ($list as $key => $row) {
                 
                 $row->getRelation('category')->visible(['name']);
+                $list[$key]['score_limit'] = $row['score_start'] . ' - ' . $row['score_end'];
             }
 
             $result = ["code" => 0, "count" => $list->total(), "data" => $list->items()];
