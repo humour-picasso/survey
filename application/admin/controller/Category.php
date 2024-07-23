@@ -58,4 +58,92 @@ class Category extends Adminbase
         return $this->fetch();
     }
 
+
+    /**
+     * 添加
+     */
+    public function add()
+    {
+        if ($this->request->isPost()) {
+            $params = $this->request->post("row/a");
+            if ($params) {
+                $params = $this->preExcludeFields($params);
+
+                if ($this->dataLimit && $this->dataLimitFieldAutoFill) {
+                    $params[$this->dataLimitField] = $this->auth->id;
+                }
+                $result = false;
+                Db::startTrans();
+                try {
+                    //是否采用模型验证
+                    if ($this->modelValidate) {
+                        $name     = str_replace("\\model\\", "\\validate\\", get_class($this->modelClass));
+                        $validate = is_bool($this->modelValidate) ? ($this->modelSceneValidate ? $name . '.add' : $name) : $this->modelValidate;
+                        $this->validateFailException(true)->validate($params, $validate);
+                    }
+                    $params['description'] = str_replace('<img', '<img style="width:100%;height:auto"', $params['description']);
+                    $result = $this->modelClass->allowField(true)->save($params);
+                    Db::commit();
+                } catch (ValidateException | PDOException | Exception $e) {
+                    Db::rollback();
+                    $this->error($e->getMessage());
+                }
+                if ($result !== false) {
+                    $this->success('新增成功');
+                } else {
+                    $this->error('未插入任何行');
+                }
+            }
+            $this->error('参数不能为空');
+        }
+        return $this->fetch();
+    }
+
+    /**
+     * 编辑
+     */
+    public function edit()
+    {
+        $id  = $this->request->param('id/d', 0);
+        $row = $this->modelClass->get($id);
+        if (!$row) {
+            $this->error('记录未找到');
+        }
+        $adminIds = $this->getDataLimitAdminIds();
+        if (is_array($adminIds)) {
+            if (!in_array($row[$this->dataLimitField], $adminIds)) {
+                $this->error('你没有权限访问');
+            }
+        }
+        if ($this->request->isPost()) {
+            $params = $this->request->post("row/a");
+            if ($params) {
+                $params = $this->preExcludeFields($params);
+                $result = false;
+                Db::startTrans();
+                try {
+                    //是否采用模型验证
+                    if ($this->modelValidate) {
+                        $name     = str_replace("\\model\\", "\\validate\\", get_class($this->modelClass));
+                        $validate = is_bool($this->modelValidate) ? ($this->modelSceneValidate ? $name . '.edit' : $name) : $this->modelValidate;
+                        $this->validateFailException(true)->validate($params, $validate);
+                    }
+                    $result = $row->allowField(true)->save($params);
+                    Db::commit();
+                } catch (ValidateException | PDOException | Exception $e) {
+                    Db::rollback();
+                    $this->error($e->getMessage());
+                }
+                if ($result !== false) {
+                    $this->success('修改成功');
+                } else {
+                    $this->error('未更新任何行');
+                }
+            }
+            $this->error('参数不能为空');
+        }
+        $this->view->assign("data", $row);
+        return $this->fetch();
+    }
+
 }
