@@ -15,7 +15,7 @@
     <div class="layui-form-item">
         <label class="layui-form-label">类型</label>
         <div class="layui-input-block">
-            <select id="c-type" lay-verify="required" name="row[type]">
+            <select id="c-type" lay-verify="required" name="row[type]" lay-filter="fieldType">
                 <option value="1">单选</option>
                 <option value="2">多选</option>
                 <option value="3">问答</option>
@@ -28,6 +28,7 @@
             <input id="c-title" lay-verify="required" class=" layui-input" name="row[title]" type="text">
         </div>
     </div>
+    <div id="targetDiv">
     <div class="layui-form-item">
         <label class="layui-form-label">备选个数</label>
         <div class="layui-input-block">
@@ -39,6 +40,7 @@
     </div>
     <div class="layui-form-item">
         <button class="layui-btn" type="button" id="add-option">追加选项+</button>
+    </div>
     </div>
     <div class="layui-form-item layer-footer">
         <div class="layui-input-block">
@@ -98,6 +100,25 @@ layui.use(['form'], function(){
                 // 重新渲染表单
                 form.render();
             })
+            // 监听 select 选择变化
+            form.on('select(fieldType)', function(data){
+                if (data.value == '3') {
+                    $('#targetDiv').hide();
+                } else {
+                    $('#targetDiv').show();
+                }
+            });
+
+            // 初始状态检查
+            var initialValue = $('#c-type').val();
+            if (initialValue == '3') {
+                $('#targetDiv').hide();
+            } else {
+                $('#targetDiv').show();
+            }
+            
+
         });
+
 </script>
 {/block}
