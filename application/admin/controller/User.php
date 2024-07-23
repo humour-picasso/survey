@@ -172,7 +172,7 @@ class User extends Adminbase
                 ->field(['u.*','s.categories','s.id as sid', 's.survey_name'])
                 ->select();
 
-        var_dump($list);
+        var_dump($where);
         exit;
         if (count(array_unique(array_column($list, 'sid'))) > 1) {
             $this->error('请先筛选同一个调查问卷的数据');
