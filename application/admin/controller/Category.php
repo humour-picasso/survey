@@ -3,7 +3,7 @@
 namespace app\admin\controller;
 
 use app\common\controller\Adminbase;
-
+use think\Db;
 /**
  * 
  */
