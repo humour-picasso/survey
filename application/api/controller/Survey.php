@@ -124,8 +124,9 @@ class Survey extends Api
             $this->error('问卷不存在');
         }
         //计算分数
-        $score = 0;
+        $scoreData = [];
         foreach ($data['categories'] as $key => $value) {
+            $score = 0;
             foreach ($value['questions'] as $k => $v) {
                 if ($v['type'] == 1) {
                     $score += $v['options'][0]['score'];
@@ -135,12 +136,13 @@ class Survey extends Api
                     }
                 }
             }
+            $scoreData[$key] = $score;
         }
 
         //遍历数组，查询各个category的分数对应的结论
         $categoryScore = [];
         foreach ($data['categories'] as $key => $value) {
-            $categoryScore[$key] = Score::where('cid', $value['id'])->where('score_start', '<=', $score)->where('score_end', '>=', $score)->find();
+            $categoryScore[$key] = Score::where('cid', $value['id'])->where('score_start', '<=', $scoreData[$key])->where('score_end', '>=', $scoreData[$key])->find();
         }
         //开启事务
         DB::startTrans();
@@ -202,7 +204,7 @@ class Survey extends Api
                 $resultData[] = [
                     'uid' => $user->id,
                     'cid' => $value['cid'],
-                    'score' => $score,
+                    'score' => $scoreData[$key],
                     'result' => $value['result'],
                     'title' => \app\admin\model\Category::where('id', $value['cid'])->value('name'),
                 ];
