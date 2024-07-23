@@ -166,10 +166,10 @@ class User extends Adminbase
         $this->request->filter(['strip_tags', 'trim']);
         [$page, $limit, $where, $sort, $order] = $this->buildTableParames();
                    
-        $list = Db::name('user')->alias('u')
-                ->leftjoin('survey s', 's.id = sid')
+        $list = Db::name('user')->alias('user')
+                ->leftjoin('survey survey', 'survey.id = sid')
                 ->where($where)
-                ->field(['u.*','s.categories','s.id as sid', 's.survey_name'])
+                ->field(['user.*','survey.categories','survey.id as sid', 'survey.survey_name'])
                 ->select();
 
         
