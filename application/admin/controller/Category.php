@@ -128,6 +128,7 @@ class Category extends Adminbase
                         $validate = is_bool($this->modelValidate) ? ($this->modelSceneValidate ? $name . '.edit' : $name) : $this->modelValidate;
                         $this->validateFailException(true)->validate($params, $validate);
                     }
+                    $params['description'] = str_replace('<img', '<img style="width:100%;height:auto"', $params['description']);
                     $result = $row->allowField(true)->save($params);
                     Db::commit();
                 } catch (ValidateException | PDOException | Exception $e) {
