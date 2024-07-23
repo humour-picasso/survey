@@ -22,5 +22,5 @@ return array (
   'upload_thumb_water_position_text' => '右下角',
   'upload_thumb_water_alpha' => '50',
   'web_logo' => '/uploads/images/20240717/5e4bbd3844866f74473cfaa3e3d1163c.png',
-  'web_site_survey_result_display' => '0',
+  'web_site_survey_result_display' => '1',
 );
