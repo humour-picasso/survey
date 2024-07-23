@@ -15,6 +15,6 @@
 
 return [
     "yzncms_name"    => "问卷管理系统", //产品名称
-    "yzncms_release" => 2024041901, //产品更新日期
+    "yzncms_release" => 2024041902, //产品更新日期
     "yzncms_version" => "1.0", //产品版本号
 ];
