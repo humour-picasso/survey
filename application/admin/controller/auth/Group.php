@@ -263,9 +263,607 @@ class Group extends Adminbase
             }
             //$ischeck = in_array($v['id'], $currentRuleIds) && !in_array($v['id'], $hasChildrens);
             $ischeck    = in_array($v['id'], $currentRuleIds);
-            $nodeList[] = ['id' => $v['id'], 'parentid' => $v['parentid'], 'name' => $v['title'], 'checked' => $ischeck];
+            
+            $nodeList[] = ['id' => $v['id'], 'parentid' => $v['parentid'], 'name' => $v['title'], 'checked' => $ischeck, 'status'=> $v['status']];
         }
-        //dump($nodeList);
+        
+        // $nodeList = array(83) {
+        //     [0] => array(5) {
+        //       ["id"] => int(1)
+        //       ["parentid"] => int(0)
+        //       ["name"] => string(12) "常规管理"
+        //       ["checked"] => bool(false)
+        //       ["status"] => int(1)
+        //     }
+        //     [1] => array(5) {
+        //       ["id"] => int(10)
+        //       ["parentid"] => int(1)
+        //       ["name"] => string(12) "配置管理"
+        //       ["checked"] => bool(false)
+        //       ["status"] => int(1)
+        //     }
+        //     [2] => array(5) {
+        //       ["id"] => int(23)
+        //       ["parentid"] => int(10)
+        //       ["name"] => string(6) "新增"
+        //       ["checked"] => bool(false)
+        //       ["status"] => int(1)
+        //     }
+        //     [3] => array(5) {
+        //       ["id"] => int(24)
+        //       ["parentid"] => int(10)
+        //       ["name"] => string(6) "编辑"
+        //       ["checked"] => bool(false)
+        //       ["status"] => int(1)
+        //     }
+        //     [4] => array(5) {
+        //       ["id"] => int(25)
+        //       ["parentid"] => int(10)
+        //       ["name"] => string(6) "删除"
+        //       ["checked"] => bool(false)
+        //       ["status"] => int(1)
+        //     }
+        //     [5] => array(5) {
+        //       ["id"] => int(26)
+        //       ["parentid"] => int(10)
+        //       ["name"] => string(12) "批量更新"
+        //       ["checked"] => bool(false)
+        //       ["status"] => int(1)
+        //     }
+        //     [6] => array(5) {
+        //       ["id"] => int(27)
+        //       ["parentid"] => int(10)
+        //       ["name"] => string(6) "查看"
+        //       ["checked"] => bool(false)
+        //       ["status"] => int(1)
+        //     }
+        //     [7] => array(5) {
+        //       ["id"] => int(11)
+        //       ["parentid"] => int(1)
+        //       ["name"] => string(12) "网站设置"
+        //       ["checked"] => bool(false)
+        //       ["status"] => int(1)
+        //     }
+        //     [8] => array(5) {
+        //       ["id"] => int(13)
+        //       ["parentid"] => int(1)
+        //       ["name"] => string(12) "附件管理"
+        //       ["checked"] => bool(false)
+        //       ["status"] => int(1)
+        //     }
+        //     [9] => array(5) {
+        //       ["id"] => int(14)
+        //       ["parentid"] => int(13)
+        //       ["name"] => string(6) "查看"
+        //       ["checked"] => bool(false)
+        //       ["status"] => int(1)
+        //     }
+        //     [10] => array(5) {
+        //       ["id"] => int(15)
+        //       ["parentid"] => int(13)
+        //       ["name"] => string(6) "删除"
+        //       ["checked"] => bool(false)
+        //       ["status"] => int(1)
+        //     }
+        //     [11] => array(5) {
+        //       ["id"] => int(16)
+        //       ["parentid"] => int(13)
+        //       ["name"] => string(15) "图片本地化"
+        //       ["checked"] => bool(false)
+        //       ["status"] => int(1)
+        //     }
+        //     [12] => array(5) {
+        //       ["id"] => int(17)
+        //       ["parentid"] => int(13)
+        //       ["name"] => string(12) "图片选择"
+        //       ["checked"] => bool(false)
+        //       ["status"] => int(1)
+        //     }
+        //     [13] => array(5) {
+        //       ["id"] => int(4)
+        //       ["parentid"] => int(1)
+        //       ["name"] => string(12) "个人资料"
+        //       ["checked"] => bool(false)
+        //       ["status"] => int(1)
+        //     }
+        //     [14] => array(5) {
+        //       ["id"] => int(5)
+        //       ["parentid"] => int(4)
+        //       ["name"] => string(6) "查看"
+        //       ["checked"] => bool(false)
+        //       ["status"] => int(1)
+        //     }
+        //     [15] => array(5) {
+        //       ["id"] => int(6)
+        //       ["parentid"] => int(4)
+        //       ["name"] => string(12) "资料更新"
+        //       ["checked"] => bool(false)
+        //       ["status"] => int(1)
+        //     }
+        //     [16] => array(5) {
+        //       ["id"] => int(28)
+        //       ["parentid"] => int(0)
+        //       ["name"] => string(12) "权限管理"
+        //       ["checked"] => bool(false)
+        //       ["status"] => int(1)
+        //     }
+        //     [17] => array(5) {
+        //       ["id"] => int(29)
+        //       ["parentid"] => int(28)
+        //       ["name"] => string(15) "管理员管理"
+        //       ["checked"] => bool(false)
+        //       ["status"] => int(1)
+        //     }
+        //     [18] => array(5) {
+        //       ["id"] => int(30)
+        //       ["parentid"] => int(29)
+        //       ["name"] => string(6) "查看"
+        //       ["checked"] => bool(false)
+        //       ["status"] => int(1)
+        //     }
+        //     [19] => array(5) {
+        //       ["id"] => int(31)
+        //       ["parentid"] => int(29)
+        //       ["name"] => string(6) "编辑"
+        //       ["checked"] => bool(false)
+        //       ["status"] => int(1)
+        //     }
+        //     [20] => array(5) {
+        //       ["id"] => int(32)
+        //       ["parentid"] => int(29)
+        //       ["name"] => string(6) "删除"
+        //       ["checked"] => bool(false)
+        //       ["status"] => int(1)
+        //     }
+        //     [21] => array(5) {
+        //       ["id"] => int(33)
+        //       ["parentid"] => int(29)
+        //       ["name"] => string(6) "新增"
+        //       ["checked"] => bool(false)
+        //       ["status"] => int(1)
+        //     }
+        //     [22] => array(5) {
+        //       ["id"] => int(34)
+        //       ["parentid"] => int(28)
+        //       ["name"] => string(12) "管理日志"
+        //       ["checked"] => bool(false)
+        //       ["status"] => int(1)
+        //     }
+        //     [23] => array(5) {
+        //       ["id"] => int(35)
+        //       ["parentid"] => int(34)
+        //       ["name"] => string(6) "查看"
+        //       ["checked"] => bool(false)
+        //       ["status"] => int(1)
+        //     }
+        //     [24] => array(5) {
+        //       ["id"] => int(36)
+        //       ["parentid"] => int(34)
+        //       ["name"] => string(6) "删除"
+        //       ["checked"] => bool(false)
+        //       ["status"] => int(1)
+        //     }
+        //     [25] => array(5) {
+        //       ["id"] => int(37)
+        //       ["parentid"] => int(28)
+        //       ["name"] => string(12) "角色管理"
+        //       ["checked"] => bool(false)
+        //       ["status"] => int(1)
+        //     }
+        //     [26] => array(5) {
+        //       ["id"] => int(38)
+        //       ["parentid"] => int(37)
+        //       ["name"] => string(6) "查看"
+        //       ["checked"] => bool(false)
+        //       ["status"] => int(1)
+        //     }
+        //     [27] => array(5) {
+        //       ["id"] => int(39)
+        //       ["parentid"] => int(37)
+        //       ["name"] => string(6) "新增"
+        //       ["checked"] => bool(false)
+        //       ["status"] => int(1)
+        //     }
+        //     [28] => array(5) {
+        //       ["id"] => int(40)
+        //       ["parentid"] => int(37)
+        //       ["name"] => string(6) "编辑"
+        //       ["checked"] => bool(false)
+        //       ["status"] => int(1)
+        //     }
+        //     [29] => array(5) {
+        //       ["id"] => int(41)
+        //       ["parentid"] => int(37)
+        //       ["name"] => string(6) "删除"
+        //       ["checked"] => bool(false)
+        //       ["status"] => int(1)
+        //     }
+        //     [30] => array(5) {
+        //       ["id"] => int(42)
+        //       ["parentid"] => int(37)
+        //       ["name"] => string(12) "访问授权"
+        //       ["checked"] => bool(false)
+        //       ["status"] => int(1)
+        //     }
+        //     [31] => array(5) {
+        //       ["id"] => int(12)
+        //       ["parentid"] => int(28)
+        //       ["name"] => string(12) "菜单管理"
+        //       ["checked"] => bool(false)
+        //       ["status"] => int(1)
+        //     }
+        //     [32] => array(5) {
+        //       ["id"] => int(18)
+        //       ["parentid"] => int(12)
+        //       ["name"] => string(6) "查看"
+        //       ["checked"] => bool(false)
+        //       ["status"] => int(1)
+        //     }
+        //     [33] => array(5) {
+        //       ["id"] => int(19)
+        //       ["parentid"] => int(12)
+        //       ["name"] => string(6) "新增"
+        //       ["checked"] => bool(false)
+        //       ["status"] => int(1)
+        //     }
+        //     [34] => array(5) {
+        //       ["id"] => int(20)
+        //       ["parentid"] => int(12)
+        //       ["name"] => string(6) "编辑"
+        //       ["checked"] => bool(false)
+        //       ["status"] => int(1)
+        //     }
+        //     [35] => array(5) {
+        //       ["id"] => int(21)
+        //       ["parentid"] => int(12)
+        //       ["name"] => string(6) "删除"
+        //       ["checked"] => bool(false)
+        //       ["status"] => int(1)
+        //     }
+        //     [36] => array(5) {
+        //       ["id"] => int(22)
+        //       ["parentid"] => int(12)
+        //       ["name"] => string(12) "批量更新"
+        //       ["checked"] => bool(false)
+        //       ["status"] => int(1)
+        //     }
+        //     [37] => array(5) {
+        //       ["id"] => int(2)
+        //       ["parentid"] => int(0)
+        //       ["name"] => string(12) "插件管理"
+        //       ["checked"] => bool(false)
+        //       ["status"] => int(0)
+        //     }
+        //     [38] => array(5) {
+        //       ["id"] => int(45)
+        //       ["parentid"] => int(2)
+        //       ["name"] => string(6) "查看"
+        //       ["checked"] => bool(false)
+        //       ["status"] => int(1)
+        //     }
+        //     [39] => array(5) {
+        //       ["id"] => int(46)
+        //       ["parentid"] => int(2)
+        //       ["name"] => string(6) "配置"
+        //       ["checked"] => bool(false)
+        //       ["status"] => int(1)
+        //     }
+        //     [40] => array(5) {
+        //       ["id"] => int(49)
+        //       ["parentid"] => int(2)
+        //       ["name"] => string(12) "禁用启用"
+        //       ["checked"] => bool(false)
+        //       ["status"] => int(1)
+        //     }
+        //     [41] => array(5) {
+        //       ["id"] => int(50)
+        //       ["parentid"] => int(0)
+        //       ["name"] => string(18) "在线命令管理"
+        //       ["checked"] => bool(false)
+        //       ["status"] => int(0)
+        //     }
+        //     [42] => array(5) {
+        //       ["id"] => int(51)
+        //       ["parentid"] => int(50)
+        //       ["name"] => string(6) "查看"
+        //       ["checked"] => bool(false)
+        //       ["status"] => int(1)
+        //     }
+        //     [43] => array(5) {
+        //       ["id"] => int(52)
+        //       ["parentid"] => int(50)
+        //       ["name"] => string(6) "添加"
+        //       ["checked"] => bool(false)
+        //       ["status"] => int(1)
+        //     }
+        //     [44] => array(5) {
+        //       ["id"] => int(53)
+        //       ["parentid"] => int(50)
+        //       ["name"] => string(6) "详情"
+        //       ["checked"] => bool(false)
+        //       ["status"] => int(1)
+        //     }
+        //     [45] => array(5) {
+        //       ["id"] => int(54)
+        //       ["parentid"] => int(50)
+        //       ["name"] => string(21) "生成并执行命令"
+        //       ["checked"] => bool(false)
+        //       ["status"] => int(1)
+        //     }
+        //     [46] => array(5) {
+        //       ["id"] => int(55)
+        //       ["parentid"] => int(50)
+        //       ["name"] => string(18) "再次执行命令"
+        //       ["checked"] => bool(false)
+        //       ["status"] => int(1)
+        //     }
+        //     [47] => array(5) {
+        //       ["id"] => int(56)
+        //       ["parentid"] => int(50)
+        //       ["name"] => string(6) "删除"
+        //       ["checked"] => bool(false)
+        //       ["status"] => int(1)
+        //     }
+        //     [48] => array(5) {
+        //       ["id"] => int(57)
+        //       ["parentid"] => int(50)
+        //       ["name"] => string(12) "批量更新"
+        //       ["checked"] => bool(false)
+        //       ["status"] => int(1)
+        //     }
+        //     [49] => array(5) {
+        //       ["id"] => int(149)
+        //       ["parentid"] => int(0)
+        //       ["name"] => string(18) "量表分类管理"
+        //       ["checked"] => bool(false)
+        //       ["status"] => int(1)
+        //     }
+        //     [50] => array(5) {
+        //       ["id"] => int(155)
+        //       ["parentid"] => int(149)
+        //       ["name"] => string(18) "分数结论管理"
+        //       ["checked"] => bool(false)
+        //       ["status"] => int(1)
+        //     }
+        //     [51] => array(5) {
+        //       ["id"] => int(156)
+        //       ["parentid"] => int(155)
+        //       ["name"] => string(6) "查看"
+        //       ["checked"] => bool(false)
+        //       ["status"] => int(1)
+        //     }
+        //     [52] => array(5) {
+        //       ["id"] => int(157)
+        //       ["parentid"] => int(155)
+        //       ["name"] => string(6) "添加"
+        //       ["checked"] => bool(false)
+        //       ["status"] => int(1)
+        //     }
+        //     [53] => array(5) {
+        //       ["id"] => int(158)
+        //       ["parentid"] => int(155)
+        //       ["name"] => string(6) "编辑"
+        //       ["checked"] => bool(false)
+        //       ["status"] => int(1)
+        //     }
+        //     [54] => array(5) {
+        //       ["id"] => int(159)
+        //       ["parentid"] => int(155)
+        //       ["name"] => string(6) "删除"
+        //       ["checked"] => bool(false)
+        //       ["status"] => int(1)
+        //     }
+        //     [55] => array(5) {
+        //       ["id"] => int(160)
+        //       ["parentid"] => int(155)
+        //       ["name"] => string(12) "批量更新"
+        //       ["checked"] => bool(false)
+        //       ["status"] => int(1)
+        //     }
+        //     [56] => array(5) {
+        //       ["id"] => int(162)
+        //       ["parentid"] => int(149)
+        //       ["name"] => string(12) "量表分类"
+        //       ["checked"] => bool(false)
+        //       ["status"] => int(1)
+        //     }
+        //     [57] => array(5) {
+        //       ["id"] => int(163)
+        //       ["parentid"] => int(162)
+        //       ["name"] => string(6) "查看"
+        //       ["checked"] => bool(false)
+        //       ["status"] => int(1)
+        //     }
+        //     [58] => array(5) {
+        //       ["id"] => int(164)
+        //       ["parentid"] => int(162)
+        //       ["name"] => string(6) "添加"
+        //       ["checked"] => bool(false)
+        //       ["status"] => int(1)
+        //     }
+        //     [59] => array(5) {
+        //       ["id"] => int(165)
+        //       ["parentid"] => int(162)
+        //       ["name"] => string(6) "编辑"
+        //       ["checked"] => bool(false)
+        //       ["status"] => int(1)
+        //     }
+        //     [60] => array(5) {
+        //       ["id"] => int(166)
+        //       ["parentid"] => int(162)
+        //       ["name"] => string(6) "删除"
+        //       ["checked"] => bool(false)
+        //       ["status"] => int(1)
+        //     }
+        //     [61] => array(5) {
+        //       ["id"] => int(167)
+        //       ["parentid"] => int(162)
+        //       ["name"] => string(12) "批量更新"
+        //       ["checked"] => bool(false)
+        //       ["status"] => int(1)
+        //     }
+        //     [62] => array(5) {
+        //       ["id"] => int(168)
+        //       ["parentid"] => int(0)
+        //       ["name"] => string(18) "量表试题管理"
+        //       ["checked"] => bool(false)
+        //       ["status"] => int(1)
+        //     }
+        //     [63] => array(5) {
+        //       ["id"] => int(174)
+        //       ["parentid"] => int(168)
+        //       ["name"] => string(12) "试题列表"
+        //       ["checked"] => bool(false)
+        //       ["status"] => int(1)
+        //     }
+        //     [64] => array(5) {
+        //       ["id"] => int(169)
+        //       ["parentid"] => int(174)
+        //       ["name"] => string(6) "查看"
+        //       ["checked"] => bool(false)
+        //       ["status"] => int(1)
+        //     }
+        //     [65] => array(5) {
+        //       ["id"] => int(170)
+        //       ["parentid"] => int(174)
+        //       ["name"] => string(6) "添加"
+        //       ["checked"] => bool(false)
+        //       ["status"] => int(1)
+        //     }
+        //     [66] => array(5) {
+        //       ["id"] => int(171)
+        //       ["parentid"] => int(174)
+        //       ["name"] => string(6) "编辑"
+        //       ["checked"] => bool(false)
+        //       ["status"] => int(1)
+        //     }
+        //     [67] => array(5) {
+        //       ["id"] => int(172)
+        //       ["parentid"] => int(174)
+        //       ["name"] => string(6) "删除"
+        //       ["checked"] => bool(false)
+        //       ["status"] => int(1)
+        //     }
+        //     [68] => array(5) {
+        //       ["id"] => int(173)
+        //       ["parentid"] => int(174)
+        //       ["name"] => string(12) "批量更新"
+        //       ["checked"] => bool(false)
+        //       ["status"] => int(1)
+        //     }
+        //     [69] => array(5) {
+        //       ["id"] => int(175)
+        //       ["parentid"] => int(0)
+        //       ["name"] => string(12) "问卷管理"
+        //       ["checked"] => bool(false)
+        //       ["status"] => int(1)
+        //     }
+        //     [70] => array(5) {
+        //       ["id"] => int(176)
+        //       ["parentid"] => int(175)
+        //       ["name"] => string(12) "问卷列表"
+        //       ["checked"] => bool(false)
+        //       ["status"] => int(1)
+        //     }
+        //     [71] => array(5) {
+        //       ["id"] => int(177)
+        //       ["parentid"] => int(176)
+        //       ["name"] => string(6) "查看"
+        //       ["checked"] => bool(false)
+        //       ["status"] => int(1)
+        //     }
+        //     [72] => array(5) {
+        //       ["id"] => int(178)
+        //       ["parentid"] => int(176)
+        //       ["name"] => string(6) "添加"
+        //       ["checked"] => bool(false)
+        //       ["status"] => int(1)
+        //     }
+        //     [73] => array(5) {
+        //       ["id"] => int(179)
+        //       ["parentid"] => int(176)
+        //       ["name"] => string(6) "编辑"
+        //       ["checked"] => bool(false)
+        //       ["status"] => int(1)
+        //     }
+        //     [74] => array(5) {
+        //       ["id"] => int(180)
+        //       ["parentid"] => int(176)
+        //       ["name"] => string(6) "删除"
+        //       ["checked"] => bool(false)
+        //       ["status"] => int(1)
+        //     }
+        //     [75] => array(5) {
+        //       ["id"] => int(181)
+        //       ["parentid"] => int(176)
+        //       ["name"] => string(12) "批量更新"
+        //       ["checked"] => bool(false)
+        //       ["status"] => int(1)
+        //     }
+        //     [76] => array(5) {
+        //       ["id"] => int(182)
+        //       ["parentid"] => int(175)
+        //       ["name"] => string(12) "提交记录"
+        //       ["checked"] => bool(false)
+        //       ["status"] => int(1)
+        //     }
+        //     [77] => array(5) {
+        //       ["id"] => int(183)
+        //       ["parentid"] => int(182)
+        //       ["name"] => string(6) "查看"
+        //       ["checked"] => bool(false)
+        //       ["status"] => int(1)
+        //     }
+        //     [78] => array(5) {
+        //       ["id"] => int(184)
+        //       ["parentid"] => int(182)
+        //       ["name"] => string(6) "添加"
+        //       ["checked"] => bool(false)
+        //       ["status"] => int(1)
+        //     }
+        //     [79] => array(5) {
+        //       ["id"] => int(185)
+        //       ["parentid"] => int(182)
+        //       ["name"] => string(6) "编辑"
+        //       ["checked"] => bool(false)
+        //       ["status"] => int(1)
+        //     }
+        //     [80] => array(5) {
+        //       ["id"] => int(186)
+        //       ["parentid"] => int(182)
+        //       ["name"] => string(6) "删除"
+        //       ["checked"] => bool(false)
+        //       ["status"] => int(1)
+        //     }
+        //     [81] => array(5) {
+        //       ["id"] => int(187)
+        //       ["parentid"] => int(182)
+        //       ["name"] => string(12) "批量更新"
+        //       ["checked"] => bool(false)
+        //       ["status"] => int(1)
+        //     }
+        //     [82] => array(5) {
+        //       ["id"] => int(188)
+        //       ["parentid"] => int(175)
+        //       ["name"] => string(12) "得分统计"
+        //       ["checked"] => bool(false)
+        //       ["status"] => int(1)
+        //     }
+        //   }
+        // 删除status=0的节点和parentid等于该节点id的节点
+        $unsetParentIds = [];
+        foreach ($nodeList as $k => $v) {
+            if ($v['status'] == 0) {
+                $unsetParentIds[] = $v['id'];
+                unset($nodeList[$k]);
+            }
+        }
+        foreach ($nodeList as $k => $v) {
+            if (in_array($v['parentid'], $unsetParentIds)) {
+                unset($nodeList[$k]);
+            }
+        }
+        $nodeList = array_values($nodeList);
         $this->assign('nodeList', json_encode($nodeList));
         $this->assign("data", $row);
         return $this->fetch();
