@@ -190,6 +190,7 @@ class Score extends Adminbase
                 ->where('score', '<=', $row['score_end'])
                 ->where('cid', $row['cid'])
                 ->count();
+                $list[$key]['score_limit'] = $row['score_start'] . ' - ' . $row['score_end'];
             }
             $result = ["code" => 0, "count" => $list->total(), "data" => $list->items()];
             return json($result);
