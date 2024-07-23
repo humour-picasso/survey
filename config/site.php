@@ -4,9 +4,9 @@ return array (
   'config_group' => 
   array (
     'base' => '基础',
-    'system' => '系统',
-    'upload' => '上传',
-    'develop' => '开发',
+    // 'system' => '系统',
+    // 'upload' => '上传',
+    // 'develop' => '开发',
   ),
   'theme' => 'default',
   'admin_forbid_ip' => '',
