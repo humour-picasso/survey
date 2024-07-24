@@ -343,7 +343,7 @@ layui.define(['form', 'table', 'yzn', 'laydate', 'laytpl', 'element','notice'], 
                 }
             });
             if (searchInput) {
-                toolbarHtml += '<input id="layui-input-search" value="" placeholder="搜索" class="layui-input layui-hide-xs" style="display:inline-block;width:auto;float: right;\n' + 'margin:2px 25px 0 0;height:28px;">\n'
+                toolbarHtml += '<input id="layui-input-search" value="" placeholder="搜索" class="layui-input " style="display:inline-block;width:auto;float: right;\n' + 'margin:2px 25px 0 0;height:28px;">\n'
             }
             return '<div>' + toolbarHtml + '</div>';
         },
@@ -469,11 +469,11 @@ layui.define(['form', 'table', 'yzn', 'laydate', 'laytpl', 'element','notice'], 
                 }
             });
             if (formHtml !== '') {
-                $(elem).before('<fieldset style="border:1px solid #ddd;" id="searchFieldset_' + tableId + '" class="table-search-fieldset ' + (searchFormVisible ? "" : "layui-hide") + '">\n' +
+                $(elem).before('<fieldset style="border:1px solid #ddd;" id="searchFieldset_' + tableId + '" class="table-search-fieldset ' + (searchFormVisible ? "" : "") + '">\n' +
                     '<legend>条件搜索</legend>\n' +
                     '<form class="layui-form layui-form-pane form-search form-commonsearch">\n' +
                     formHtml +
-                    '<div class="layui-form-item layui-inline" style="margin-left: 115px">\n' +
+                    '<div class="layui-form-item " >\n' +
                     '<button type="submit" class="layui-btn layui-btn-normal" data-type="tableSearch" data-table="' + tableId + '" lay-submit lay-filter="' + tableId + '_filter"> 搜 索</button>\n' +
                     '<button type="reset" class="layui-btn layui-btn-primary" data-table-reset="' + tableId + '"> 重 置 </button>\n' +
                     ' </div>' +
@@ -637,7 +637,7 @@ layui.define(['form', 'table', 'yzn', 'laydate', 'laytpl', 'element','notice'], 
         },
         listenToolbar: function(layFilter, tableId) {
             table.on('toolbar(' + layFilter + ')', function(obj) {
-                // 搜索表单的显示
+                搜索表单的显示
                 switch (obj.event) {
                     case 'TABLE_SEARCH':
                         var searchFieldsetId = 'searchFieldset_' + tableId;

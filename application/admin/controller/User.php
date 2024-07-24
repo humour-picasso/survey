@@ -98,6 +98,17 @@ class User extends Adminbase
         foreach ($list as $key => $row) {
             $excelData[$key][] = $row['user_name'];
             $excelData[$key][] = (string)$row['user_id'];
+            switch ($row['sex']) {
+                case 1:
+                    $excelData[$key][] = '男';
+                    break;
+                case 2:
+                    $excelData[$key][] = '女';
+                    break;
+                default:
+                    $excelData[$key][] = '';
+                    break;
+            }
             $excelData[$key][] = $row['sex'] == 1 ? '男' : '女';
             $excelData[$key][] = $row['birth'];
             $excelData[$key][] = $row['department'];
@@ -181,7 +192,17 @@ class User extends Adminbase
         foreach ($list as $key => $row) {
             $excelData[$key][] = $row['user_name'];
             $excelData[$key][] = (string)$row['user_id'];
-            $excelData[$key][] = $row['sex'] == 1 ? '男' : '女';
+            switch ($row['sex']) {
+                case 1:
+                    $excelData[$key][] = '男';
+                    break;
+                case 2:
+                    $excelData[$key][] = '女';
+                    break;
+                default:
+                    $excelData[$key][] = '';
+                    break;
+            }
             $excelData[$key][] = $row['birth'];
             $excelData[$key][] = $row['department'];
             $excelData[$key][] = $row['survey_name'];
