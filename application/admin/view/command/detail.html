@@ -1,0 +1,47 @@
+{extend name="index_layout"/}
+{block name="main"}
+<table class="layui-table">
+    <colgroup>
+        <col width="150">
+        <col width="150">
+        <col>
+    </colgroup>
+    <thead>
+        <tr>
+            <th>标题</th>
+            <th>返回结果</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>类型</td>
+            <td>{$row.type}({$row.type_text})</td>
+        </tr>
+        <tr>
+            <td>参数</td>
+            <td>{$row.params}</td>
+        </tr>
+        <tr>
+            <td>命令</td>
+            <td>{$row.command}</td>
+        </tr>
+        <tr>
+            <td>返回结果</td>
+            <td>
+                <textarea class="layui-textarea" name="" id="" cols="60" rows="6">{$row.content}</textarea>
+            </td>
+        </tr>
+        <tr>
+            <td>执行时间</td>
+            <td>{$row.execute_time|time_format}</td>
+        </tr>
+        <tr>
+            <td>状态</td>
+            <td>{$row.status_text}</td>
+        </tr>
+    </tbody>
+</table>
+<div class="layui-hide layer-footer">
+    <button type="reset" class="layui-btn btn-close" onclick="layer.closeAll();">关闭</button>
+</div>
+{/block}

@@ -1,0 +1,122 @@
+{extend name="index_layout"/}
+{block name="main"}
+<form class="layui-form" method="post">
+    <div class="layui-form-item">
+        <label class="layui-form-label">问卷标题</label>
+        <div class="layui-input-block">
+            <input id="c-survey_name" lay-verify="required" class=" layui-input" name="row[survey_name]" type="text" value="{$data.survey_name}">
+        </div>
+    </div>
+    <!-- <div class="layui-form-item">
+        <label class="layui-form-label">问卷描述</label>
+        <div class="layui-input-block">
+            <script type="text/plain" class="js-ueditor" data-simple-mode="1" id="survey_description" name="row[survey_description]" >{$data.survey_description|raw}</script>
+        </div>
+    </div> -->
+    <div class="layui-form-item">
+        <label class="layui-form-label">姓名显示</label>
+        <div class="layui-input-block">
+            <input lay-verify="required" class=" layui-input" name="row[user_name_display]" value="1" type="radio" title="是" {if $data.user_name_display ==1}checked{/if}>
+            <input lay-verify="required" class=" layui-input" name="row[user_name_display]" value="0" type="radio" title="否" {if $data.user_name_display ==0}checked{/if}>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">姓名必填</label>
+        <div class="layui-input-block">
+            <input lay-verify="required" class=" layui-input" name="row[user_name_required]" value="1" type="radio" title="是" {if $data.user_name_required ==1}checked{/if}> 
+            <input lay-verify="required" class=" layui-input" name="row[user_name_required]" value="0" type="radio" title="否" {if $data.user_name_required ==0}checked{/if}> 
+        </div>
+    </div>
+    
+    <div class="layui-form-item">
+        <label class="layui-form-label">编号显示</label>
+        <div class="layui-input-block">
+            <input lay-verify="required" class=" layui-input" name="row[user_id_display]" value="1" type="radio" title="是" {if $data.user_id_display ==1}checked{/if}>
+            <input lay-verify="required" class=" layui-input" name="row[user_id_display]" value="0" type="radio" title="否" {if $data.user_id_display ==0}checked{/if}>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">编号必填</label>
+        <div class="layui-input-block">
+            <input lay-verify="required" class=" layui-input" name="row[user_id_required]" value="1" type="radio" title="是" {if $data.user_id_required ==1}checked{/if}>
+            <input lay-verify="required" class=" layui-input" name="row[user_id_required]" value="0" type="radio" title="否" {if $data.user_id_required ==0}checked{/if}>
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">性别显示</label>
+        <div class="layui-input-block">
+            <input lay-verify="required" class=" layui-input" name="row[user_sex_display]" value="1" type="radio" title="是" {if $data.user_sex_display ==1}checked{/if}>
+            <input lay-verify="required" class=" layui-input" name="row[user_sex_display]" value="0" type="radio" title="否" {if $data.user_sex_display ==0}checked{/if}>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">性别必填</label>
+        <div class="layui-input-block">
+            <input lay-verify="required" class=" layui-input" name="row[user_sex_required]" value="1" type="radio" title="是" {if $data.user_sex_required ==1}checked{/if}> 
+            <input lay-verify="required" class=" layui-input" name="row[user_sex_required]" value="0" type="radio" title="否" {if $data.user_sex_required ==0}checked{/if}> 
+        </div>
+    </div>
+    
+    <div class="layui-form-item">
+        <label class="layui-form-label">生日显示</label>
+        <div class="layui-input-block">
+            <input lay-verify="required" class=" layui-input" name="row[user_birth_display]" value="1" type="radio" title="是" {if $data.user_birth_display ==1}checked{/if}>
+            <input lay-verify="required" class=" layui-input" name="row[user_birth_display]" value="0" type="radio" title="否" {if $data.user_birth_display ==0}checked{/if}>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">生日必填</label>
+        <div class="layui-input-block">
+            <input lay-verify="required" class=" layui-input" name="row[user_birth_required]" value="1" type="radio" title="是" {if $data.user_birth_required ==1}checked{/if}> 
+            <input lay-verify="required" class=" layui-input" name="row[user_birth_required]" value="0" type="radio" title="否" {if $data.user_birth_required ==0}checked{/if}> 
+        </div>
+    </div>
+    
+    <div class="layui-form-item">
+        <label class="layui-form-label">部门显示</label>
+        <div class="layui-input-block">
+            <input lay-verify="required" class=" layui-input" name="row[user_department_display]" value="1" type="radio" title="是" {if $data.user_department_display ==1}checked{/if}>
+            <input lay-verify="required" class=" layui-input" name="row[user_department_display]" value="0" type="radio" title="否" {if $data.user_department_display ==0}checked{/if}>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">部门必填</label>
+        <div class="layui-input-block">
+            <input lay-verify="required" class=" layui-input" name="row[user_department_required]" value="1" type="radio" title="是" {if $data.user_department_required ==1}checked{/if}> 
+            <input lay-verify="required" class=" layui-input" name="row[user_department_required]" value="0" type="radio" title="否" {if $data.user_department_required ==0}checked{/if}> 
+        </div>
+    </div>
+    
+    <div class="layui-form-item">
+        <label class="layui-form-label">选择量表</label>
+        <div class="layui-input-block">
+            {volist name="category" id="v"}
+            <input lay-verify="required" class=" layui-input" name="row[categories][]" type="checkbox" value="{$v.id}" title="{$v.name}" {if in_array($v.id, $data.categories)}checked{/if}>
+            {/volist}
+        </div>
+    </div>
+    <div class="layui-form-item layer-footer">
+        <div class="layui-input-block">
+            <button class="layui-btn" lay-submit="">立即提交</button>
+            <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+        </div>
+    </div>
+    
+
+    <div class="layui-form-item layer-footer">
+        <div class="layui-input-block">
+            <button class="layui-btn" lay-submit="">立即提交</button>
+            <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+        </div>
+    </div>
+</form>
+{/block}
+{block name="script"}
+<script type="text/javascript">
+layui.use('yznForm', function() {
+    var yznForm = layui.yznForm;
+    yznForm.bindevent($("form.layui-form"));
+});
+</script>
+{/block}

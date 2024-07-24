@@ -1,0 +1,116 @@
+{extend name="index_layout"/}
+{block name="main"}
+<form class="layui-form" method="post">
+    <input name="qid" value="{$data.id}" type="hidden">
+    <div class="layui-form-item">
+        <label class="layui-form-label">所属量表</label>
+        <div class="layui-input-block">
+            <select name="row[cid]" lay-verify="required">
+                {volist name="category" id="item" key="index"}
+                <option value="{$item.id}" {if $data.cid == $item.id}selected{/if}>{$item.name}</option>
+                {/volist}
+            </select>
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">类型</label>
+        <div class="layui-input-block">
+            <select id="c-type" lay-verify="required" name="row[type]" lay-filter="fieldType">
+                <option value="1" {if $data.type==1}selected{}>单选</option>
+                <option value="2" {if $data.type==2}selected{}>多选</option>
+                <option value="3" {if $data.type==3}selected{}>问答</option>
+            </select>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">题目</label>
+        <div class="layui-input-block">
+            <input id="c-title" lay-verify="required" class=" layui-input" name="row[title]" type="text" value="{$data.title}">
+        </div>
+    </div>
+    <div id="targetDiv" {if $data.type==3}style="display:none"{/if}>
+    <div id="dynamicInputs" class="layui-form-item">
+        <div class="layui-row layui-col-space16">
+            <div class="layui-col-xs8">
+                <label class="layui-form-label">选项</label>
+            </div>
+            <div class="layui-col-xs4">
+                <label class="layui-form-label">分数</label>
+            </div>
+        </div>
+        {volist name="options" id="option" key="index"}
+        <div class="layui-row layui-col-space16">
+            <div class="layui-col-xs8">
+                <input type="hidden" name="id[{$index}]" value="{$option.id}" class="option-id">
+                <input type="text" name="option[{$index}]" placeholder="选项" value="{$option.option_name}" class="layui-input options">
+            </div>
+            <div class="layui-col-xs2">
+                <input type="text" name="score[{$index}]" placeholder="分数" value="{$option.score}" class="layui-input score">
+
+            </div>
+            <div class="layui-col-xs1">
+                <button class="layui-btn layui-btn-danger remove" type="button">X</button>
+            </div>
+        </div>
+
+        {/volist}
+    </div>
+    <div class="layui-form-item">
+        <button class="layui-btn" type="button" id="add-option">追加选项+</button>
+    </div>
+    </div>
+    <div class="layui-form-item layer-footer">
+        <div class="layui-input-block">
+            <button class="layui-btn" lay-submit="">立即提交</button>
+            <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+        </div>
+    </div>
+</form>
+{/block}
+{block name="script"}
+<script type="text/javascript">
+layui.use('yznForm', function() {
+    var yznForm = layui.yznForm;
+    yznForm.bindevent($("form.layui-form"));
+});
+layui.use(['form'], function(){
+    var form = layui.form;
+    var $ = layui.jquery;
+
+    $('#add-option').on('click', function () {
+        var dynamicInputs = $('#dynamicInputs');
+        var k = $('.options').length + 1;
+        dynamicInputs.append(
+            '<div class="layui-row layui-col-space16">' +
+            '<div class="layui-col-xs8">' +
+            '<input type="hidden" name="id[' + k + ']" value="0" class="option-id">' +
+            '<input type="text" name="option[' + k + ']" placeholder="选项" class="layui-input options"></div>' +
+            '<div class="layui-col-xs2">' +
+            '<input type="text" name="score[' + k + ']" placeholder="分数" class="layui-input score"></div>' +
+            '<div class="layui-col-xs1">' +
+            '<button class="layui-btn layui-btn-danger remove" type="button">X</button>' +
+            '</div>' +
+            '</div>'
+        );
+        // 重新渲染表单
+        form.render();
+    })
+
+    $('.remove').on('click', function () {
+        $(this).closest('.layui-row').find('.options').val('');
+        $(this).closest('.layui-row').find('.score').val('');
+        $(this).closest('.layui-row').hide();
+    })
+    // 监听 select 选择变化
+    form.on('select(fieldType)', function(data){
+        if (data.value == '3') {
+            $('#targetDiv').hide();
+        } else {
+            $('#targetDiv').show();
+        }
+    });
+            
+});
+</script>
+{/block}

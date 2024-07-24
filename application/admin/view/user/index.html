@@ -1,0 +1,63 @@
+{extend name="index_layout"/}
+{block name="main"}
+<div class="layui-card">
+    <div class="layui-card-header"></div>
+    <div class="layui-card-body">
+        <div class="layui-form">
+            <table class="layui-hide" id="currentTable" lay-filter="currentTable"
+                data-auth-delete="{:$auth->check('user/del')}"
+                ></table>
+        </div>
+    </div>
+</div>
+{/block}
+{block name="script"}
+<script type="text/javascript">
+layui.use('yznTable', function() {
+    var table = layui.yznTable;
+
+    var init = {
+        table_elem: '#currentTable',
+        table_render_id: 'currentTable',
+        view_url: '{:url("view")}',
+        delete_url: '{:url("del")}',
+        export_url: '{:url("export")}',
+        export_all_url: '{:url("exportAll")}',
+    };
+
+    table.render({
+        init: init,
+        toolbar: ['refresh', 'delete', 'export', 'export_all'],
+        url: '{:url("index")}',
+        defaultToolbar: ['filter'],
+        searchInput: false,
+        cols: [
+            [
+               {type: 'checkbox', fixed: 'left' },
+               {field: 'id', title: 'id',maxWidth:80},
+               {field: 'survey.survey_name', title: '问卷',minWidth:80, searchOp: 'LIKE',minWidth:110},
+               {field: 'user_name', title: '姓名',minWidth:80, searchOp: 'LIKE',minWidth:110},
+               {field: 'user_id', title: '编号',minWidth:80, searchOp: 'LIKE',minWidth:110},
+               {field: 'sex', title: '性别',minWidth:80,minWidth:110,templet: function(d){
+                    var sex = '';
+                    if(d.sex == 1){
+                        sex = '男';
+                    }
+                    if(d.sex == 2){
+                        sex = '女';
+                    }
+                    return sex;
+               }},
+               {field: 'birth', title: '生日',minWidth:80, searchOp: 'LIKE',minWidth:110},
+               {field: 'department', title: '部门',minWidth:80, searchOp: 'LIKE',minWidth:110},
+               {field: 'create_at', title: '创建时间',minWidth:80},
+               {fixed: 'right',width:90,field: 'operate', title: '操作',templet: yznTable.formatter.tool,operat: ['view','delete']}
+            ]
+        ],
+        page: {}
+    });
+
+    yznTable.bindevent();
+});
+</script>
+{/block}
