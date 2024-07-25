@@ -1,0 +1,53 @@
+{extend name="index_layout"/}
+{block name="main"}
+<div class="layui-card">
+    <div class="layui-card-header"></div>
+    <div class="layui-card-body">
+        <div class="layui-form">
+            <table class="layui-hide" id="currentTable" lay-filter="currentTable"
+                data-auth-add="{:$auth->check('category.score/add')}" 
+                data-auth-edit="{:$auth->check('category.score/edit')}"
+                data-auth-delete="{:$auth->check('category.score/del')}"
+                data-auth-recyclebin="{:$auth->check('category.score/recyclebin')}"
+                ></table>
+        </div>
+    </div>
+</div>
+{/block}
+{block name="script"}
+<script type="text/javascript">
+layui.use('yznTable', function() {
+    var table = layui.yznTable;
+
+    var init = {
+        table_elem: '#currentTable',
+        table_render_id: 'currentTable',
+        add_url: '{:url("add")}',
+        edit_url: '{:url("edit")}',
+        delete_url: '{:url("del")}',
+        modify_url: "{:url('multi')}",
+        recyclebin_url: "{:url('recyclebin')}",
+    };
+
+    table.render({
+        init: init,
+        toolbar: ['refresh'],
+        url: '{:url("statistics")}',
+        searchInput: false,
+        cols: [
+            [
+               {type: 'checkbox', fixed: 'left' },
+               {field: 'survey_name', title: '问卷名称',minWidth:200, searchOp: 'LIKE',minWidth:110},
+               {field: 'name', title: '量表分类',minWidth:200, searchOp: 'LIKE',minWidth:110},
+               {field: 'score_limit', title: '分段',search: false, minWidth:40},
+               {field: 'result', title: '结论', search: false, minWidth:80},
+               {field: 'count', title: '人数', search: false, minWidth:80},
+            ]
+        ],
+        page: {}
+    });
+
+    yznTable.bindevent();
+});
+</script>
+{/block}
