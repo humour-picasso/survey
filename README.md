@@ -1,6 +1,6 @@
 ## 问卷调查管理系统
-本项目基于https://github.com/ken678/yzncms 二次开发
-鸣谢:https://github.com/ken678 的开源精神
+- 本项目基于https://github.com/ken678/yzncms 二次开发
+- 鸣谢:https://github.com/ken678 的开源精神
 
 #### 后台部分截图
 ![survey](https://github.com/user-attachments/assets/e7218f28-3a6c-45c0-9eef-102724c67616)
