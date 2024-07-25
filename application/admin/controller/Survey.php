@@ -54,6 +54,7 @@ class Survey extends Adminbase
             
             $list = $this->modelClass
                     ->where($where)
+                    ->where('status', 1)
                     ->order($sort, $order)
                     ->paginate($limit);
             foreach ($list as $key =>$row) {
@@ -212,7 +213,46 @@ class Survey extends Adminbase
         $uniqueId = md5($uniqueString);
         return substr($uniqueId, 0, $length);
     }
-
+    
+    /**
+     * 删除
+     */
+    public function del()
+    {
+        if (false === $this->request->isPost()) {
+            $this->error('未知参数');
+        }
+        $ids = $this->request->param('id/a', null);
+        if (empty($ids)) {
+            $this->error('参数错误！');
+        }
+        if (!is_array($ids)) {
+            $ids = [0 => $ids];
+        }
+        $pk       = $this->modelClass->getPk();
+        $adminIds = $this->getDataLimitAdminIds();
+        $where    = [];
+        if (is_array($adminIds)) {
+            $where[] = [$this->dataLimitField, 'in', $adminIds];
+        }
+        $where[] = [$pk, 'in', $ids];
+        $list    = $this->modelClass->where($where)->select();
+        $count   = 0;
+        Db::startTrans();
+        try {
+            foreach ($list as $k => $v) {
+                $count += $v->save(['status'=> 0]);
+            }
+            Db::commit();
+        } catch (PDOException | Exception $e) {
+            Db::rollback();
+            $this->error($e->getMessage());
+        }
+        if ($count) {
+            $this->success("操作成功！");
+        }
+        $this->error('没有数据删除！');
+    }
 
     /**
      * 问卷调查各个量表分类中各个结论的统计人数
