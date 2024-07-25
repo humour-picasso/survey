@@ -5,6 +5,7 @@ namespace app\admin\controller;
 use app\common\controller\Adminbase;
 use app\common\library\QRCode;
 use app\admin\model\Category;
+use app\admin\model\category\Score;
 use think\Db;
 /**
  * 问卷管理
@@ -99,7 +100,20 @@ class Survey extends Adminbase
                     QRCode::generate($url, $path);
                     $params['qr_code'] = '/qrcode/'.$params['uuid'].'.png';
                     $params['categories'] = !empty($params['categories']) ? implode(',', $params['categories']) : $params['categories'][0];
+                    
                     $result = $this->modelClass->allowField(true)->save($params);
+                    //添加关系
+                    $surveyId = $this->modelClass->id;
+                    if (!empty($params['categories'])) {
+                        $categories = explode(',', $params['categories']);
+                        foreach ($categories as $category) {
+                            $data = [
+                                'sid' => $surveyId,
+                                'cid' => $category
+                            ];
+                            Db::name('survey_category_relationship')->insert($data);
+                        }
+                    }
                     Db::commit();
                 } catch (ValidateException | PDOException | Exception $e) {
                     Db::rollback();
@@ -151,6 +165,21 @@ class Survey extends Adminbase
                     }
                     $params['categories'] = !empty($params['categories']) ? implode(',', $params['categories']) : $params['categories'][0];
                     $result = $row->allowField(true)->save($params);
+                    //添加关系
+                    $surveyId = $this->modelClass->id;
+                    if (!empty($params['categories'])) {
+                        $categories = explode(',', $params['categories']);
+                        foreach ($categories as $category) {
+                            //先删除
+                            Db::name('survey_category_relationship')->where('sid', $surveyId)->delete();
+                            $data = [
+                                'sid' => $surveyId,
+                                'cid' => $category
+                            ];
+                            Db::name('survey_category_relationship')->insert($data);
+                        }
+                    }
+
                     Db::commit();
                 } catch (ValidateException | PDOException | Exception $e) {
                     Db::rollback();
@@ -183,6 +212,69 @@ class Survey extends Adminbase
         $uniqueString = $timestamp . $randomNumber;
         $uniqueId = md5($uniqueString);
         return substr($uniqueId, 0, $length);
+    }
+
+
+    /**
+     * 问卷调查各个量表分类中各个结论的统计人数
+     */
+    public function statistics() {
+        //当前是否为关联查询
+        $this->relationSearch = false;
+        //设置过滤方法
+        $this->request->filter(['strip_tags', 'trim']);
+        if ($this->request->isAjax()) {
+            //如果发送的来源是Selectpage，则转发到Selectpage
+            $params = $this->request->request();
+            $page = $params['page'];
+            $limit = $params['limit'];
+            $filter = json_decode($params['filter'], true);
+            if (!empty($filter['survey_name'])) {
+                $where['survey_name'] = ['like', '%'.$filter['survey_name'].'%'];
+                $list = $this->modelClass->where($where)->select();
+            } else {
+                $list = $this->modelClass->select();
+            }
+            $result = [];
+            foreach ($list as $key =>$row) {
+                
+                $list[$key]['categories'] = explode(',', $row['categories']);
+                $categories = [];
+                if (!empty($list[$key]['categories'])) {
+                    foreach ($list[$key]['categories'] as $k => $v) {
+                        if (!empty($filter['category_name'])) {
+                            $cwhere['category_name'] = ['like', '%'.$filter['category_name'].'%'];
+                        }  else {
+                            $cwhere = ['1' => '1'];
+                        }
+                        $categories[$k] = Category::where('id', $v)->where($cwhere)->value('name');
+                        $categoriesScore = Score::where('cid', $v)->select();
+                        if (!empty($categoriesScore)) {
+                            foreach ($categoriesScore as $kk => $vv) {
+                                $categoriesScore[$kk]['count'] = Db::name('user_result ur')
+                                ->leftjoin('user u', 'u.id = ur.uid')
+                                ->where('score', '>=', $vv['score_start'])
+                                ->where('score', '<=', $vv['score_end'])
+                                ->where('cid', $v)
+                                ->where('sid', $row['id'])
+                                ->count();
+                                $result[] = [
+                                    'survey_name' => $row['survey_name'], 
+                                    'category_name' => $categories[$k], 
+                                    'score_limit' => $vv['score_start'] . ' - ' . $vv['score_end'],
+                                    'count' => $categoriesScore[$kk]['count']
+                                ];
+                            }
+                        }
+                    }
+                }
+            }
+            
+            $result = ["code" => 0, "count" => count($result), "data" => $result];
+
+            return json($result);
+        }
+        return $this->fetch();
     }
 
 }
