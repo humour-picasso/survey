@@ -203,14 +203,11 @@ class Survey extends Api
             foreach ($categoryScore as $key => $value) {
                 $resultData[] = [
                     'uid' => $user->id,
-                    'cid' => $value['cid'],
+                    'cid' => $value['cid'] ?? $data['categories'][$key]['id'],
                     'score' => $scoreData[$key],
-                    'result' => $value['result'],
-                    'title' => \app\admin\model\Category::where('id', $value['cid'])->value('name'),
+                    'result' => $value['result'] ?? '暂无结论',
+                    'title' => \app\admin\model\Category::where('id', $data['categories'][$key]['id'])->value('name'),
                 ];
-            }
-            if (empty($resultData)) {
-                throw new \Exception('结论为空，请检查问卷配置');
             }
             $userResult->saveAll($resultData);
             //提交事务
