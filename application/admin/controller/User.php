@@ -109,7 +109,6 @@ class User extends Adminbase
                     $excelData[$key][] = '';
                     break;
             }
-            $excelData[$key][] = $row['sex'] == 1 ? '男' : '女';
             $excelData[$key][] = $row['birth'];
             $excelData[$key][] = $row['department'];
             $excelData[$key][] = $row['survey_name'];
